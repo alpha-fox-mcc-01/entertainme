@@ -6,7 +6,7 @@ class TvSeriesController {
       .then(tvSeries => {
         res.status(200).json(tvSeries);
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static addTvSeries(req, res, next) {
@@ -21,7 +21,7 @@ class TvSeriesController {
       .then(tvSeries => {
         res.status(201).json(tvSeries);
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static editTvSeries(req, res, next) {
@@ -39,7 +39,7 @@ class TvSeriesController {
           message: 'Tv Series updated successfully',
         });
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static deleteTvSeries(req, res, next) {
@@ -50,7 +50,7 @@ class TvSeriesController {
           message: 'Tv Series deleted successfully',
         });
       })
-      .catch(next);
+      .catch(console.log);
   }
 }
 

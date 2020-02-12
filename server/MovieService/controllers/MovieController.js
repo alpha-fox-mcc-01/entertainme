@@ -6,7 +6,7 @@ class MovieController {
       .then(movie => {
         res.status(200).json(movie);
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static addMovie(req, res, next) {
@@ -21,7 +21,7 @@ class MovieController {
       .then(movie => {
         res.status(201).json(movie);
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static editMovie(req, res, next) {
@@ -39,7 +39,7 @@ class MovieController {
           message: 'Movie updated successfully',
         });
       })
-      .catch(next);
+      .catch(console.log);
   }
 
   static deleteMovie(req, res, next) {
@@ -50,7 +50,7 @@ class MovieController {
           message: 'Movie deleted successfully',
         });
       })
-      .catch(next);
+      .catch(console.log);
   }
 }
 
