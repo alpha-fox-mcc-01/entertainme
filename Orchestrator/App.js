@@ -21,6 +21,7 @@ app.get("/entertainme", (req, res) => {
       console.log('dari redis')
       res.status(200).json(JSON.parse(result));
     } else {
+      console.log('dari else')
       Promise.all(promiseArray)
         .then(result => {
           redis.set(
@@ -41,6 +42,19 @@ app.get("/entertainme", (req, res) => {
     }
   });
 });
+
+
+app.post('/movies', (req, res) => {
+  const { title, overview, poster_path, popularity, tags } = req.body
+  movieInstance.post("movies", {  title, overview, poster_path, popularity, tags })
+               .then(({data}) => {
+                 res.status(200).json({msg: 'Movie successfully added!'})
+                 redis.del("entertainme");
+               })
+               .catch(err => {
+                 res.status(500).json({error: err})
+               })
+})
 
 app.listen(PORT, () => {
   console.log("app running on port", PORT);
