@@ -26,7 +26,7 @@ class TvSeriesController {
       static getAllSeries(req, res, next) {
           TvSeries.find()
                .then(result => {
-                   res.status(200).json({ tvSeries: result })
+                   res.status(200).json(result)  
                })
                .catch(err => {
                    next(err)

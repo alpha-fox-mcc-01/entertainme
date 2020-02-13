@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(logger('dev'))
 app.use('/', routes)
 
-app.use('/', (req, res, next, err) => {
+app.use('/', ( err, req, res, next) => {
     console.log(err)
     res.status(500).json({ error: err})
 })

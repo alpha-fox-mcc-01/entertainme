@@ -1,5 +1,5 @@
 {
-  "name": "Orchestrator",
+  "name": "OrchestratorServices",
   "version": "1.0.0",
   "description": "",
   "main": "App.js",
@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server": "^2.10.0",
     "axios": "^0.19.2",
-    "express": "^4.17.1",
+    "graphql": "^14.6.0",
     "ioredis": "^4.14.1",
-    "mongoose": "^5.8.11",
-    "morgan": "^1.9.1"
+    "mongoose": "^5.8.11"
   }
 }

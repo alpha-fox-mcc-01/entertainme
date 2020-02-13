@@ -2,17 +2,15 @@ const Movie = require("../models/movies");
 
 class MovieController {
   static createMovie(req, res, next) {
+    console.log(req.body)
     const { title, overview, poster_path, popularity, tags } = req.body;
-    let tagInput = [];
-    if (tags) {
-      tagInput = tags.split(",");
-    }
+
     Movie.create({
       title,
       overview,
       poster_path,
       popularity,
-      tags: tagInput
+      tags
     })
       .then( result => {
           console.log(result)
@@ -26,7 +24,7 @@ class MovieController {
   static getAllMovies(req, res, next) {
       Movie.find()
            .then(result => {
-               res.status(200).json({ movies: result })
+               res.status(200).json(result)
            })
            .catch(err => {
                next(err)
