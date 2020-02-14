@@ -6,7 +6,7 @@ const routes = require('./routes')
 const mongoose = require('mongoose')
 const uri = 'mongodb://localhost:27017/entertainme' || process.env.ATLAS_CONNECT
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
