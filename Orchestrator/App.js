@@ -1,6 +1,4 @@
 const PORT = process.env.PORT || 3000;
-// var Redis = require("ioredis");
-// var redis = new Redis();
 const movieInstance = require("./apis/movieInstance");
 const tvseriesInstance = require("./apis/tvseriesInstance");
 
@@ -9,6 +7,7 @@ const { ApolloServer, gql } = require("apollo-server");
 const typeDefs = gql`
 
  type Movie {
+   _id: ID
    title: String
    overview: String
    poster_path: String
@@ -17,6 +16,7 @@ const typeDefs = gql`
  }
 
  type TVSeries {
+   _id: ID
   title: String
   overview: String
   poster_path: String
@@ -24,12 +24,15 @@ const typeDefs = gql`
   tags: [String]
 }
  type Query {
-   movies: [Movie],
+   movies: [Movie]
    tvseries: [TVSeries]
  }
 
  type Mutation {
    addMovies(title: String, overview: String, poster_path: String, popularity: Int, tags: [String]): Movie
+   editMovie(_id: ID, title: String, overview: String, poster_path: String, popularity: Int, tags: [String]) : Movie
+   deleteMovie(_id: ID) : Movie
+
  }
 
  
@@ -52,6 +55,21 @@ const resolvers = {
         tags: args.tags
       });
       return result;
+    },
+    editMovie: async (parent, args) => {
+      const { data : { result } } = await movieInstance.put("movies/" + args._id, {
+        title: args.title,
+        overview: args.overview,
+        poster_path: args.poster_path,
+        popularity: args.popularity,
+        tags: args.tags
+      })
+      return result
+    },
+    deleteMovie: async (parents, args) => {
+      const { data: { result }} = await movieInstance.delete("movies/" + args._id)
+      return result
+
     }
   }
 };
