@@ -30,15 +30,21 @@ const ADD_MOVIE = gql`
     $popularity: Int
     $tags: [String]
     $poster_path: String
+    $overview: String
   ) {
     addMovies(
       title: $title
       popularity: $popularity
       tags: $tags
       poster_path: $poster_path
+      overview: $overview
     ) {
+      _id
       title
       poster_path
+      popularity
+      overview
+      tags
     }
   }
 `;
@@ -49,12 +55,21 @@ export default function Home() {
   const [popularity, onChangePopularity] = useState(null);
   const [path, onChangePath] = useState("");
   const [tags, onChangeTags] = useState([]);
-  const [addMovies, { data: result }] = useMutation(ADD_MOVIE);
+  const [overview, onChangeOverview] = useState("")
+  const [addMovies, { data: result }] = useMutation(ADD_MOVIE, {
+    update(cache, { data: { addMovies } }) {
+      const { movies } = cache.readQuery({ query: GET_MOVIES });
+      cache.writeQuery({
+        query: GET_MOVIES,
+        data: { movies: movies.concat([addMovies]) }
+      });
+    }
+  });
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error</Text>;
 
   const handleInput = () => {
-    addMovies({ variables: { title, popularity, path, tags } });
+    addMovies({ variables: { title, popularity, path, tags, overview } });
     console.log(title, popularity, path, tags);
   };
   return (
@@ -69,7 +84,7 @@ export default function Home() {
       <Text>Popularity</Text>
       <TextInput
         style={{ height: 30, width: 200, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={input => onChangePopularity(input)}
+        onChangeText={input => onChangePopularity(Number(input))}
         value={popularity}
       />
       <Text>Tags</Text>
@@ -83,6 +98,13 @@ export default function Home() {
         style={{ height: 30, width: 200, borderColor: "gray", borderWidth: 1 }}
         onChangeText={input => onChangePath(input)}
         value={path}
+      />
+
+      <Text>Overview</Text>
+      <TextInput
+        style={{ height: 30, width: 200, borderColor: "gray", borderWidth: 1 }}
+        onChangeText={input => onChangeOverview(input)}
+        value={overview}
       />
 
       <Button title="Submit" onPress={() => handleInput()}></Button>
