@@ -27,3 +27,8 @@ export const CHANGE_TAGS = gql`
     }
   }
 `
+export const DELETE_WATCHLIST = gql`
+  mutation DeleteWatchlist($id: String!) {
+    deleteMovie(id: $id)
+  }
+`

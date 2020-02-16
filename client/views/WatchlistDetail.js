@@ -6,7 +6,7 @@ import styles from '../styles/watchlistDetail.style'
 
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { GET_MOVIE, GET_TAGS } from '../graphql/queries'
-import { CHANGE_TAGS } from '../graphql/mutations'
+import { CHANGE_TAGS, DELETE_WATCHLIST } from '../graphql/mutations'
 
 export default function WatchlistDetail({ route, navigation }) {
   const [imdbId, setImdbId] = useState(route.params.imdbId)
@@ -15,17 +15,14 @@ export default function WatchlistDetail({ route, navigation }) {
   const [inputtedTags, setInputtedTags] = useState('')
 
   const [changeTags] = useMutation(CHANGE_TAGS)
+  const [deleteWatchlist] = useMutation(DELETE_WATCHLIST)
+
   const { loading, error, data, refetch } = useQuery(GET_MOVIE, {
     variables: {
       imdbId: imdbId,
     },
   })
-  const {
-    loading: tagsLoading,
-    error: tagsError,
-    data: tagsData,
-    refetch: tagsRefetch,
-  } = useQuery(GET_TAGS, {
+  const { data: tagsData, refetch: tagsRefetch } = useQuery(GET_TAGS, {
     variables: {
       id: _id,
     },
@@ -108,7 +105,10 @@ export default function WatchlistDetail({ route, navigation }) {
           <TouchableOpacity
             style={styles.btnOutline}
             onPress={() => {
-              alert('removed!')
+              deleteWatchlist({ variables: { id: _id } }).then(() => {
+                alert('watchlist deleted')
+                navigation.navigate('CurrentWatchList')
+              })
             }}
           >
             <Text style={styles.outlineText}>Remove From Watch list</Text>
