@@ -48,7 +48,7 @@ const moviesResolver = {
   },
   Mutation: {
     addMovie: async (parent, args) => {
-      const { data } = await movieInstance({
+      const { data } = await moviesInstance({
         method: "POST",
         data: {
           title: args.title,

@@ -60,8 +60,8 @@ const tvSeriesResolver = {
       });
       return data;
     },
-    editMovie: async (parent, args) => {
-      const { data } = await moviesInstance({
+    editTvSeries: async (parent, args) => {
+      const { data } = await tvSeriesInstance({
         method: "PUT",
         data: {
           title: args.title,
