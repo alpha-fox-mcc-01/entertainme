@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import Stars from 'react-native-stars';
+import { MaterialCommunityIcons as Icon } from 'react-native-vector-icons';
 
 const TvSeriesCard = props => {
   const { title, overview, poster_path, popularity, tags } = props.tvSeries;
@@ -35,9 +37,27 @@ const TvSeriesCard = props => {
           >
             {title}
           </Text>
-          <Text style={{ color: '#5D92B1', fontSize: 15, fontWeight: 'bold' }}>
+          {/* <Text style={{ color: '#5D92B1', fontSize: 15, fontWeight: 'bold' }}>
             {popularity}
-          </Text>
+          </Text> */}
+          <View style={{ alignItems: 'flex-start' }}>
+            <Stars
+              default={Math.floor(popularity) / 2}
+              count={5}
+              half={true}
+              starSize={50}
+              fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
+              emptyStar={
+                <Icon
+                  name={'star-outline'}
+                  style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+                />
+              }
+              halfStar={
+                <Icon name={'star-half'} style={[styles.myStarStyle]} />
+              }
+            />
+          </View>
         </View>
         <Text style={{ color: 'grey', fontSize: 12 }}>{overview}</Text>
         <View style={{ flexDirection: 'row' }}>
@@ -66,3 +86,13 @@ const TvSeriesCard = props => {
 };
 
 export default TvSeriesCard;
+
+const styles = StyleSheet.create({
+  myStarStyle: {
+    color: '#5D92B1',
+    backgroundColor: 'transparent',
+  },
+  myEmptyStarStyle: {
+    color: '#5D92B1',
+  },
+});

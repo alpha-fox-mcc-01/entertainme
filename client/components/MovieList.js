@@ -3,6 +3,8 @@ import { Text, StyleSheet, Dimensions, View, Image } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Carousel from 'react-native-snap-carousel';
+import Stars from 'react-native-stars';
+import { MaterialCommunityIcons as Icon } from 'react-native-vector-icons';
 
 const GET_FIVE_MOVIES = gql`
   {
@@ -58,9 +60,24 @@ const MovieList = () => {
             {item.title}
           </Text>
           <Text style={{ color: 'red' }}>{item.tags[0]}</Text>
-          <Text style={{ color: 'gold', fontSize: 12, fontWeight: 'bold' }}>
-            {item.popularity}
-          </Text>
+          <View style={{ alignItems: 'flex-start' }}>
+            <Stars
+              default={Math.floor(item.popularity) / 2}
+              count={5}
+              half={true}
+              starSize={50}
+              fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
+              emptyStar={
+                <Icon
+                  name={'star-outline'}
+                  style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+                />
+              }
+              halfStar={
+                <Icon name={'star-half'} style={[styles.myStarStyle]} />
+              }
+            />
+          </View>
         </View>
       </View>
     );
@@ -98,6 +115,13 @@ const styles = StyleSheet.create({
     width: slideWidth,
     // flex: 1,
     // other styles for the inner container
+  },
+  myStarStyle: {
+    color: 'gold',
+    backgroundColor: 'transparent',
+  },
+  myEmptyStarStyle: {
+    color: 'gold',
   },
 });
 

@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import MovieCard from '../components/MovieCard';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+
 const GET_MOVIES = gql`
   {
     movies {
