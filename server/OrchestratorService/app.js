@@ -1,19 +1,19 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
-const router = require('./routes');
+const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
+const { movieType, movieResolver } = require('./Types/Movie');
+const { tvSeriesType, tvSeriesResolver } = require('./Types/TvSeries');
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+const rootTypeDefs = gql`
+  type Query
+  type Mutation
+`;
 
-app.use('/', router);
-
-app.get('*', (req, res) => {
-  res.status(404).json({
-    message: '404 Page Not Found',
-  });
+const schema = makeExecutableSchema({
+  typeDefs: [rootTypeDefs, movieType, tvSeriesType],
+  resolvers: [movieResolver, tvSeriesResolver],
 });
 
-app.listen(port, () => {
-  console.log('Orchestra Service listening on port ' + port);
+const server = new ApolloServer({ schema });
+
+server.listen().then(({ url }) => {
+  console.log(`🚀  Apollo Server listening on ${url}`);
 });

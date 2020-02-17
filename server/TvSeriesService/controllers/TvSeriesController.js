@@ -3,6 +3,17 @@ const TvSeries = require('../models/TvSeries');
 class TvSeriesController {
   static fetchAllTvSeries(req, res, next) {
     TvSeries.find()
+      .sort({ createdAt: -1 })
+      .then(tvSeries => {
+        res.status(200).json(tvSeries);
+      })
+      .catch(console.log);
+  }
+
+  static fetchFiveTvSeries(req, res, next) {
+    TvSeries.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
       .then(tvSeries => {
         res.status(200).json(tvSeries);
       })
