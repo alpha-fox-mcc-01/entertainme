@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import styles from '../styles/watchlistDetail.style'
@@ -45,10 +53,10 @@ export default function WatchlistDetail({ route, navigation }) {
     },
   })
 
-  useEffect(() => {
-    refetch()
-    tagsRefetch()
-  }, [])
+  // useEffect(() => {
+  //   refetch()
+  //   tagsRefetch()
+  // }, [])
 
   if (error || tagsError) {
     return (
@@ -70,7 +78,7 @@ export default function WatchlistDetail({ route, navigation }) {
     const { tags } = tagsData.movie
     const { poster_path, title, year, popularity, overview } = data.discoverMovie
     return (
-      <View style={styles.container}>
+      <>
         <Image source={{ uri: poster_path }} style={styles.background} />
         <LinearGradient
           colors={['rgba(52,55,70,0.4)', 'rgba(52,55,70,0.9)']}
@@ -78,77 +86,81 @@ export default function WatchlistDetail({ route, navigation }) {
           end={[0, 0.6]}
           style={styles.backgroundTinter}
         />
-        <View style={styles.movieDetailContainer}>
-          <View style={styles.mainInfo}>
-            <Image source={{ uri: poster_path }} style={styles.thumbnail} />
-            <View style={{ width: '100%', flexShrink: 1 }}>
-              <Text style={styles.title}>❤️ {title}</Text>
-              <Text style={styles.info}>Year: {year}</Text>
-              <Text style={styles.info}>Rating: {popularity}</Text>
-              <Text style={styles.info}>Synopsis:</Text>
-              <Text style={styles.info}>{overview}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            {tags !== undefined &&
-              tags.map((tag, i) => (
-                <Text key={i} style={styles.tags}>
-                  🏷{tag}
-                </Text>
-              ))}
-          </View>
+        <KeyboardAvoidingView behavior={'padding'} keyboardVerticalOffset={95} enabled>
+          <ScrollView>
+            <View style={styles.movieDetailContainer}>
+              <View style={styles.mainInfo}>
+                <Image source={{ uri: poster_path }} style={styles.thumbnail} />
+                <View style={{ width: '100%', flexShrink: 1 }}>
+                  <Text style={styles.title}>❤️ {title}</Text>
+                  <Text style={styles.info}>Year: {year}</Text>
+                  <Text style={styles.info}>Rating: {popularity}</Text>
+                  <Text style={styles.info}>Synopsis:</Text>
+                  <Text style={styles.info}>{overview}</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {tags !== undefined &&
+                  tags.map((tag, i) => (
+                    <Text key={i} style={styles.tags}>
+                      🏷{tag}
+                    </Text>
+                  ))}
+              </View>
 
-          <View style={styles.tagform}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                setShowForm(!showForm)
-              }}
-            >
-              <Text>Add Custom tags</Text>
-            </TouchableOpacity>
-            {showForm && (
-              <TextInput
-                style={styles.formControl}
-                placeholder='enter to add tags, comma separated'
-                onChangeText={(value) => {
-                  setInputtedTags(value)
-                }}
-                value={inputtedTags}
-                onSubmitEditing={() => {
-                  let stringifiedTags
-                  if (tags.length >= 1) {
-                    stringifiedTags = tags.join(',')
-                    stringifiedTags += `,${inputtedTags}`
-                  } else {
-                    stringifiedTags = inputtedTags
-                  }
-                  changeTags({
-                    variables: {
-                      id: _id,
-                      tags: stringifiedTags,
-                    },
-                  }).then(() => {
-                    tagsRefetch()
-                    setInputtedTags('')
+              <View style={styles.tagform}>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => {
+                    setShowForm(!showForm)
+                  }}
+                >
+                  <Text>Add Custom tags</Text>
+                </TouchableOpacity>
+                {showForm && (
+                  <TextInput
+                    style={styles.formControl}
+                    placeholder='enter to add tags, comma separated'
+                    onChangeText={(value) => {
+                      setInputtedTags(value)
+                    }}
+                    value={inputtedTags}
+                    onSubmitEditing={() => {
+                      let stringifiedTags
+                      if (tags.length >= 1) {
+                        stringifiedTags = tags.join(',')
+                        stringifiedTags += `,${inputtedTags}`
+                      } else {
+                        stringifiedTags = inputtedTags
+                      }
+                      changeTags({
+                        variables: {
+                          id: _id,
+                          tags: stringifiedTags,
+                        },
+                      }).then(() => {
+                        tagsRefetch()
+                        setInputtedTags('')
+                      })
+                    }}
+                  />
+                )}
+              </View>
+              <TouchableOpacity
+                style={styles.btnOutline}
+                onPress={() => {
+                  deleteWatchlist({ variables: { id: _id } }).then(() => {
+                    alert('watchlist deleted')
+                    navigation.navigate('CurrentWatchList')
                   })
                 }}
-              />
-            )}
-          </View>
-          <TouchableOpacity
-            style={styles.btnOutline}
-            onPress={() => {
-              deleteWatchlist({ variables: { id: _id } }).then(() => {
-                alert('watchlist deleted')
-                navigation.navigate('CurrentWatchList')
-              })
-            }}
-          >
-            <Text style={styles.outlineText}>Remove From Watch list</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+              >
+                <Text style={styles.outlineText}>Remove From Watch list</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </>
     )
   }
 }

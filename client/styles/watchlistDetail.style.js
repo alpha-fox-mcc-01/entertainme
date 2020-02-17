@@ -47,7 +47,7 @@ export default StyleSheet.create({
     borderRadius: 6,
   },
   movieDetailContainer: {
-    marginTop: 100,
+    marginTop: 200,
     marginHorizontal: Constants.statusBarHeight,
     flexShrink: 1,
   },
