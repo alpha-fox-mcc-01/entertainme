@@ -53,10 +53,10 @@ export default function WatchlistDetail({ route, navigation }) {
     },
   })
 
-  // useEffect(() => {
-  //   refetch()
-  //   tagsRefetch()
-  // }, [])
+  useEffect(() => {
+    refetch()
+    tagsRefetch()
+  }, [])
 
   if (error || tagsError) {
     return (
