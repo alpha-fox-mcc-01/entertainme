@@ -10,7 +10,7 @@ const typeDefs = gql`
     title: String
     overview: String
     poster_path: String
-    popularity: Int
+    popularity: Float
     tags: [String]
   }
 
@@ -19,7 +19,7 @@ const typeDefs = gql`
     title: String
     overview: String
     poster_path: String
-    popularity: Int
+    popularity: Float
     tags: [String]
   }
   type Query {
@@ -32,7 +32,7 @@ const typeDefs = gql`
       title: String
       overview: String
       poster_path: String
-      popularity: Int
+      popularity: Float
       tags: [String]
     ): Movie
     editMovie(
@@ -40,7 +40,7 @@ const typeDefs = gql`
       title: String
       overview: String
       poster_path: String
-      popularity: Int
+      popularity: Float
       tags: [String]
     ): Movie
     deleteMovie(_id: ID): Movie
@@ -48,7 +48,7 @@ const typeDefs = gql`
       title: String
       overview: String
       poster_path: String
-      popularity: Int
+      popularity: Float
       tags: [String]
     ): TVSeries
     editSeries(
@@ -56,7 +56,7 @@ const typeDefs = gql`
       title: String
       overview: String
       poster_path: String
-      popularity: Int
+      popularity: Float
       tags: [String]
     ): TVSeries
     deleteSeries(_id: ID): TVSeries
@@ -115,7 +115,7 @@ const resolvers = {
         popularity: args.popularity,
         tags: args.tags
       });
-      return data
+      return result
     },
     editSeries: async (parents, args) => {
       const {

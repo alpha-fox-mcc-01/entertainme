@@ -12,17 +12,7 @@ const GET_MOVIES = gql`
       title
       overview
       poster_path
-    }
-  }
-`;
-
-const GET_SERIES = gql`
-  {
-    tvseries {
-      _id
-      title
-      overview
-      poster_path
+      popularity
     }
   }
 `;
@@ -30,7 +20,7 @@ const GET_SERIES = gql`
 const ADD_MOVIE = gql`
   mutation AddMovie(
     $title: String
-    $popularity: Int
+    $popularity: Float
     $tags: [String]
     $poster_path: String
     $overview: String
@@ -52,9 +42,7 @@ const ADD_MOVIE = gql`
   }
 `;  
 export default function InputForm() {
-  const [modal, setModal] = useState("false");
-  const { loading, error, data } = useQuery(GET_MOVIES);
-  const { loading : loadSerial , error : errorSerial, data: serial } = useQuery(GET_SERIES)
+
   const [title, onChangeTitle] = useState("");
   const [popularity, onChangePopularity] = useState(null);
   const [path, onChangePath] = useState("");
@@ -72,7 +60,7 @@ export default function InputForm() {
 
   const handleInput = () => {
       console.log(path, `IT'S THE PATHH`)
-    addMovies({ variables: { title, popularity: Number(popularity), poster_path : path, tags, overview } });
+    addMovies({ variables: { title, poster_path : path, tags, overview } });
     onChangePopularity(null)
     onChangePath('')
     onChangeTags([])
@@ -88,65 +76,38 @@ export default function InputForm() {
           <View style={{ width: 300, height: 300, alignItems: 'center', justifyContent: 'center', backgroundColor: 'black'}}>
             <Text style={styles.fontStyle}>Title</Text>
             <TextInput
-              style={{
-                height: 30,
-                width: 200,
-                borderColor: "gray",
-                borderWidth: 1
-              }}
+              style={styles.inputStyle}
               onChangeText={text => onChangeTitle(text)}
               value={title}
             />
             <Text style={styles.fontStyle}>Popularity</Text>
             <TextInput
-              style={{
-                height: 30,
-                width: 200,
-                borderColor: "gray",
-                borderWidth: 1
-              }}
+              style={styles.inputStyle}
               onChangeText={input => onChangePopularity(input)}
               value={popularity}
             />
             <Text style={styles.fontStyle}>Tags</Text>
             <TextInput
-              style={{
-                height: 30,
-                width: 200,
-                borderColor: "gray",
-                borderWidth: 1
-              }}
+              style={styles.inputStyle}
               onChangeText={input => onChangeTags(input.split(","))}
               value={tags.join(",")}
             />
             <Text style={styles.fontStyle}>Poster Path</Text>
             <TextInput
-              style={{
-                height: 30,
-                width: 200,
-                borderColor: "gray",
-                borderWidth: 1
-              }}
+              style={styles.inputStyle}
               onChangeText={url => onChangePath(url)}
               value={path}
             />
 
             <Text style={styles.fontStyle}>Overview</Text>
             <TextInput
-              style={{
-                height: 30,
-                width: 200,
-                borderColor: "gray",
-                borderWidth: 1
-              }}
+              style={styles.inputStyle}
               onChangeText={input => onChangeOverview(input)}
               value={overview}
             />
-
             <Button title="Submit" onPress={() => handleInput()}></Button>
           </View>
         </View>
-  
     </View>
   );
 }
@@ -158,5 +119,13 @@ const styles = StyleSheet.create({
     },
     fontStyle: {
       color: 'red' 
+    },
+    inputStyle: {
+      height: 30,
+      width: 200,
+      borderColor: "red",
+      borderWidth: 1,
+      borderRadius: 6,
+      color: 'white'
     }
   });

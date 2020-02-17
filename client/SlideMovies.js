@@ -4,15 +4,8 @@ import {
   Text,
   View,
   Image,
-  TextInput,
-  Button,
-  ScrollView,
-  Alert,
   Dimensions
 } from "react-native";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider, useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import Carousel from "react-native-snap-carousel";
 
 export default function SlideMovies(props) {
@@ -49,7 +42,7 @@ const slideWidth = 150;
 
 const sliderWidth = Dimensions.get("window").width;
 const itemWidth = slideWidth + horizontalMargin * 2;
-const itemHeight = 300;
+const itemHeight = 250;
 
 const styles = StyleSheet.create({
   slide: {

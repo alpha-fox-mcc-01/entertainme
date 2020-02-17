@@ -4,15 +4,8 @@ import {
   Text,
   View,
   Image,
-  TextInput,
-  Button,
-  ScrollView,
-  Alert,
   Dimensions
 } from "react-native";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider, useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import Carousel from "react-native-snap-carousel";
 
 export default function SlideSeries(props) {
@@ -55,7 +48,8 @@ const styles = StyleSheet.create({
   slide: {
     width: itemWidth,
     height: itemHeight,
-    paddingHorizontal: horizontalMargin
+    paddingHorizontal: horizontalMargin,
+    flex: 1
     // other styles for the item container
   },
   slideInnerContainer: {
