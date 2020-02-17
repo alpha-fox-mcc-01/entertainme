@@ -56,7 +56,13 @@ export default function AddMovieForm(props) {
           >
             {props.action}
           </Text>
-          <View>
+          <View style={{ marginTop: 10 }}>
+            <Ionicons
+              name="ios-clipboard"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Title..."
               style={styles.inputField}
@@ -64,6 +70,12 @@ export default function AddMovieForm(props) {
               value={title}
             />
 
+            <Ionicons
+              name="ios-chatbubbles"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Overview..."
               style={styles.inputField}
@@ -71,6 +83,12 @@ export default function AddMovieForm(props) {
               value={overview}
             />
 
+            <Ionicons
+              name="ios-image"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Poster Path/URL..."
               style={styles.inputField}
@@ -78,6 +96,12 @@ export default function AddMovieForm(props) {
               value={poster_path}
             />
 
+            <Ionicons
+              name="ios-people"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Popularity Scale..."
               style={styles.inputField}
@@ -85,6 +109,12 @@ export default function AddMovieForm(props) {
               value={popularity}
             />
 
+            <Ionicons
+              name="ios-apps"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Tags..."
               style={styles.inputField}
@@ -221,7 +251,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 35,
     width: 300,
-    marginTop: 20,
+    marginTop: 10,
     padding: 5,
     borderRadius: 10,
     color: "tomato",

@@ -11,6 +11,8 @@ import {
 
 import { Ionicons } from "@expo/vector-icons";
 
+import { KeyboardAvoidingView } from "react-native";
+
 import { useMutation } from "@apollo/react-hooks";
 
 export default function AddMovieForm(props) {
@@ -47,7 +49,12 @@ export default function AddMovieForm(props) {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={0}
+      behavior={"height"}
+      enabled
+    >
       <Modal animationType="slide" transparent={false} visible={modalVisible}>
         <ImageBackground
           source={{
@@ -66,6 +73,12 @@ export default function AddMovieForm(props) {
             {props.action}
           </Text>
           <View>
+            <Ionicons
+              name="ios-clipboard"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Title..."
               style={styles.inputField}
@@ -73,6 +86,12 @@ export default function AddMovieForm(props) {
               value={title}
             />
 
+            <Ionicons
+              name="ios-chatbubbles"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Overview..."
               style={styles.inputField}
@@ -80,6 +99,12 @@ export default function AddMovieForm(props) {
               value={overview}
             />
 
+            <Ionicons
+              name="ios-image"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Poster Path/URL..."
               style={styles.inputField}
@@ -87,6 +112,12 @@ export default function AddMovieForm(props) {
               value={poster_path}
             />
 
+            <Ionicons
+              name="ios-people"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Popularity Scale..."
               style={styles.inputField}
@@ -94,6 +125,12 @@ export default function AddMovieForm(props) {
               value={popularity}
             />
 
+            <Ionicons
+              name="ios-apps"
+              color="tomato"
+              size={30}
+              style={{ alignSelf: "center", marginTop: 20 }}
+            />
             <TextInput
               placeholder="Tags..."
               style={styles.inputField}
@@ -198,60 +235,46 @@ export default function AddMovieForm(props) {
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+          </View>
+          <TouchableOpacity
+            style={{
+              borderWidth: 3,
+              marginTop: 28,
+              padding: 3,
+              alignSelf: "center",
+              width: 200,
+              height: 37,
+              borderRadius: 10,
+              borderColor: "grey",
+              justifyContent: "center"
+            }}
+            onPress={() => {
+              deleteNew({});
+            }}
+          >
+            <View
               style={{
-                borderWidth: 3,
-                marginTop: 40,
-                padding: 3,
-                alignSelf: "center",
-                width: 200,
-                height: 37,
-                borderRadius: 10,
-                borderColor: "grey",
-                justifyContent: "center"
-              }}
-              onPress={() => {
-                editNew({
-                  variables: {
-                    title,
-                    overview,
-                    poster_path,
-                    popularity: parseFloat(popularity),
-                    tags
-                  }
-                });
-                setModalVisible(false);
-                setTitle("");
-                setOverview("");
-                setPosterPath("");
-                setPopularity("");
-                setTags([]);
+                flexDirection: "row",
+                justifyContent: "space-between"
               }}
             >
-              <View
+              <Text
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between"
+                  fontFamily: "Montserrat-Regular",
+                  fontSize: 20,
+                  color: "grey"
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "Montserrat-Regular",
-                    fontSize: 20,
-                    color: "grey"
-                  }}
-                >
-                  Delete
-                </Text>
-                <Ionicons
-                  name="ios-trash"
-                  color="grey"
-                  size={30}
-                  style={{ marginRight: 10 }}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
+                Delete
+              </Text>
+              <Ionicons
+                name="ios-trash"
+                color="grey"
+                size={30}
+                style={{ marginRight: 10 }}
+              />
+            </View>
+          </TouchableOpacity>
         </ImageBackground>
       </Modal>
 
@@ -273,7 +296,7 @@ export default function AddMovieForm(props) {
       >
         <Ionicons name="ios-settings" color="tomato" size={40} />
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
