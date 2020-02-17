@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Carousel from 'react-native-snap-carousel';
 
-const GET_MOVIES = gql`
+const GET_FIVE_MOVIES = gql`
   {
     movies(limit: 5) {
       _id
@@ -17,7 +17,7 @@ const GET_MOVIES = gql`
 `;
 
 const MovieList = () => {
-  const { loading, error, data } = useQuery(GET_MOVIES);
+  const { loading, error, data } = useQuery(GET_FIVE_MOVIES);
 
   if (loading) return <Text style={{ color: 'white' }}>Please Wait...</Text>;
   if (error)

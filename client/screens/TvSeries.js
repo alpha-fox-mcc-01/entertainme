@@ -1,13 +1,32 @@
 import React from 'react';
-import { Text, StyleSheet, ScrollView } from 'react-native';
+import { Text, StyleSheet, FlatList } from 'react-native';
 import TvSeriesList from '../components/TvSeriesList';
 import AddFormTv from '../components/AddFormTv';
-import AllTvSeries from '../components/AllTvSeries';
+import TvSeriesCard from '../components/TvSeriesCard';
 import Constants from 'expo-constants';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+const GET_TVSERIES = gql`
+  {
+    tvSeries {
+      _id
+      title
+      overview
+      poster_path
+      popularity
+      tags
+    }
+  }
+`;
 
 const TvSeries = () => {
-  return (
-    <ScrollView style={styles.container}>
+  const { loading, error, data } = useQuery(GET_TVSERIES);
+
+  if (loading) return <Text>Please Wait...</Text>;
+  if (error) return <Text>Error: {error.message}</Text>;
+
+  const header = (
+    <>
       <Text
         style={{
           marginTop: Constants.statusBarHeight,
@@ -17,12 +36,20 @@ const TvSeries = () => {
           alignSelf: 'center',
         }}
       >
-        Tv Series
+        TvSeries
       </Text>
       <AddFormTv />
       <TvSeriesList />
-      <AllTvSeries />
-    </ScrollView>
+    </>
+  );
+  return (
+    <FlatList
+      ListHeaderComponent={header}
+      data={data.tvSeries}
+      renderItem={({ item }) => <TvSeriesCard tvSeries={item} />}
+      keyExtractor={item => item._id}
+      style={styles.container}
+    />
   );
 };
 

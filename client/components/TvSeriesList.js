@@ -4,12 +4,11 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Carousel from 'react-native-snap-carousel';
 
-const GET_TVSERIES = gql`
+const GET_FIVE_TVSERIES = gql`
   {
     tvSeries(limit: 5) {
       _id
       title
-      overview
       poster_path
       popularity
       tags
@@ -18,7 +17,7 @@ const GET_TVSERIES = gql`
 `;
 
 const TvSeriesList = () => {
-  const { loading, error, data } = useQuery(GET_TVSERIES);
+  const { loading, error, data } = useQuery(GET_FIVE_TVSERIES);
 
   if (loading) return <Text>Please Wait...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;

@@ -41,14 +41,27 @@ const ADD_TVSERIES = gql`
   }
 `;
 
-const GET_TVSERIES = gql`
+const GET_FIVE_TVSERIES = gql`
   {
     tvSeries(limit: 5) {
+      _id
+      title
+      poster_path
+      popularity
+      tags
+    }
+  }
+`;
+
+const GET_TVSERIES = gql`
+  {
+    tvSeries {
       _id
       title
       overview
       poster_path
       popularity
+      tags
     }
   }
 `;
@@ -73,10 +86,17 @@ const AddFormTv = () => {
 
   const [addTvSeries] = useMutation(ADD_TVSERIES, {
     update(cache, { data: { addTvSeries } }) {
-      const { tvSeries } = cache.readQuery({ query: GET_TVSERIES });
+      const { tvSeries } = cache.readQuery({ query: GET_FIVE_TVSERIES });
+      cache.writeQuery({
+        query: GET_FIVE_TVSERIES,
+        data: { tvSeries: [addTvSeries, ...tvSeries] },
+      });
+      const { tvSeries: allTvSeries } = cache.readQuery({
+        query: GET_TVSERIES,
+      });
       cache.writeQuery({
         query: GET_TVSERIES,
-        data: { tvSeries: [addTvSeries, ...tvSeries] },
+        data: { tvSeries: [addTvSeries, ...allTvSeries] },
       });
     },
   });
@@ -261,6 +281,10 @@ const AddFormTv = () => {
               tagTextStyle={styles.tagText}
             />
 
+            <Text style={{ color: '#5D92B1', marginBottom: 8 }}>
+              All fields are required.
+            </Text>
+
             <TouchableOpacity
               onPress={() => {
                 onSubmitAddMovie();
@@ -303,10 +327,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   tag: {
-    backgroundColor: '#8b0000',
-    color: '#8b0000',
+    backgroundColor: '#5D92B1',
   },
   tagText: {
-    color: '#8b0000',
+    color: 'white',
   },
 });

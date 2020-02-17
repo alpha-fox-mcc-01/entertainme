@@ -66,8 +66,6 @@ const GET_MOVIES = gql`
   }
 `;
 
-const mainColor = '#8b0000';
-
 const AddForm = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState('');
