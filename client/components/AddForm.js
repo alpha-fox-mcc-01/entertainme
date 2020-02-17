@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  Modal,
-  ImageBackground
+  ImageBackground,
+  KeyboardAvoidingView,
+  ScrollView,
+  Dimensions
 } from "react-native";
+
+import Constants from "expo-constants";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import { useMutation } from "@apollo/react-hooks";
 
-export default function AddMovieForm(props) {
-  const { ADD_QUERY, GET_QUERY, resource, mutationName } = props;
+import queries from "../queries/";
+
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
+  "window"
+);
+export default function AddForm({ route, navigation }) {
+  const { resource, mutationName, action, query, mutation } = route.params;
 
   const [title, setTitle] = useState("");
   const [overview, setOverview] = useState("");
@@ -22,13 +31,13 @@ export default function AddMovieForm(props) {
   const [popularity, setPopularity] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const [addNew, { loading, error, data }] = useMutation(ADD_QUERY, {
+  const [addNew, { loading, error, data }] = useMutation(queries[mutation], {
     update(cache, { data }) {
-      const currentMovies = cache.readQuery({ query: GET_QUERY })[resource];
+      const currentMovies = cache.readQuery({ query: queries[query] })[
+        resource
+      ];
       cache.writeQuery({
-        query: GET_QUERY,
+        query: queries[query],
         data: { [resource]: [data[mutationName], ...currentMovies] }
       });
     }
@@ -38,23 +47,28 @@ export default function AddMovieForm(props) {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View>
-      <Modal animationType="slide" transparent={false} visible={modalVisible}>
+    <KeyboardAvoidingView enabled>
+      <ScrollView>
         <ImageBackground
           source={{
             uri:
               "https://i.pinimg.com/originals/4a/1f/d0/4a1fd04bcd5797a3c02e18a86d1b4b01.jpg"
           }}
-          style={{ alignItems: "center", height: "100%", width: "100%" }}
+          style={{
+            alignItems: "center",
+            height: viewportHeight - 49.5,
+            width: "100%"
+          }}
         >
           <Text
             style={{
               fontFamily: "Montserrat-Regular",
               fontSize: 30,
-              color: "tomato"
+              color: "tomato",
+              marginTop: Constants.statusBarHeight
             }}
           >
-            {props.action}
+            {action}
           </Text>
           <View style={{ marginTop: 10 }}>
             <Ionicons
@@ -144,12 +158,12 @@ export default function AddMovieForm(props) {
                     tags
                   }
                 });
-                setModalVisible(false);
                 setTitle("");
                 setOverview("");
                 setPosterPath("");
                 setPopularity("");
                 setTags([]);
+                navigation.navigate("Home");
               }}
             >
               <View
@@ -188,12 +202,12 @@ export default function AddMovieForm(props) {
                 justifyContent: "center"
               }}
               onPress={() => {
-                setModalVisible(false);
                 setTitle("");
                 setOverview("");
                 setPosterPath("");
                 setPopularity("");
                 setTags([]);
+                navigation.push("Home");
               }}
             >
               <View
@@ -221,27 +235,8 @@ export default function AddMovieForm(props) {
             </TouchableOpacity>
           </View>
         </ImageBackground>
-      </Modal>
-
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={{
-          marginTop: "auto",
-          marginRight: "auto",
-          marginLeft: "auto",
-          marginBottom: 10,
-          borderWidth: 3,
-          borderColor: "tomato",
-          borderRadius: 15,
-          width: 140,
-          height: 40,
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <Ionicons name="ios-add" color="tomato" size={50} />
-      </TouchableOpacity>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

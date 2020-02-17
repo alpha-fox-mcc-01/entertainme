@@ -62,6 +62,7 @@ const moviesResolver = {
     },
     editMovie: async (parent, args) => {
       const { data } = await moviesInstance({
+        url: `${args.id}`,
         method: "PUT",
         data: {
           title: args.title,

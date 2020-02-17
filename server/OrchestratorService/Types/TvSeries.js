@@ -62,6 +62,7 @@ const tvSeriesResolver = {
     },
     editTvSeries: async (parent, args) => {
       const { data } = await tvSeriesInstance({
+        url: `${args.id}`,
         method: "PUT",
         data: {
           title: args.title,
@@ -69,9 +70,6 @@ const tvSeriesResolver = {
           poster_path: args.poster_path,
           popularity: args.popularity,
           tags: args.tags
-        },
-        params: {
-          id: args.id
         }
       });
       return data;

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import Constants from "expo-constants";
 
@@ -17,10 +18,11 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import AddForm from "../components/AddForm";
 import EditForm from "../components/EditForm";
 
-import { GET_MOVIES, ADD_MOVIE, EDIT_MOVIE, DELETE_MOVIE } from "../queries/";
+import queries from "../queries/";
 import MyCarousel from "../components/MyCarousel";
+const { GET_MOVIES } = queries;
 
-export default function Movies() {
+function HomeMovies({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
   const loadFont = async () => {
     await Font.loadAsync({
@@ -35,7 +37,6 @@ export default function Movies() {
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
-
   return (
     fontLoaded && (
       <ImageBackground
@@ -63,7 +64,7 @@ export default function Movies() {
             EntertainMe
           </Text>
         </View>
-        <MyCarousel entries={data.movies} />
+        <MyCarousel entries={data.movies} navigation={navigation} />
         <View
           style={{
             position: "absolute",
@@ -84,25 +85,68 @@ export default function Movies() {
             justifyContent: "space-between"
           }}
         >
-          <AddForm
-            ADD_QUERY={ADD_MOVIE}
-            GET_QUERY={GET_MOVIES}
-            resource="movies"
-            mutationName="addMovie"
-            action="Add New Movie"
-          />
-          <EditForm
-            EDIT_QUERY={EDIT_MOVIE}
-            GET_QUERY={GET_MOVIES}
-            DELETE_QUERY={DELETE_MOVIE}
-            resource="movies"
-            mutationName="addMovie"
-            action="Edit Movie"
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.push("Add Movie", {
+                query: "GET_MOVIES",
+                mutation: "ADD_MOVIE",
+                resource: "movies",
+                mutationName: "addMovie",
+                action: "Add New Movie"
+              })
+            }
+            style={{
+              marginTop: "auto",
+              marginRight: "auto",
+              marginLeft: "auto",
+              marginBottom: 10,
+              borderWidth: 3,
+              borderColor: "tomato",
+              borderRadius: 15,
+              width: 160,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Ionicons name="ios-add" color="tomato" size={50} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              marginTop: "auto",
+              marginRight: "auto",
+              marginLeft: "auto",
+              marginBottom: 10,
+              borderWidth: 3,
+              borderColor: "tomato",
+              borderRadius: 15,
+              width: 160,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Ionicons name="ios-settings" color="tomato" size={40} />
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     )
-    // </View>
+  );
+}
+
+export default function Movies() {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <Stack.Screen name="Home" component={HomeMovies} />
+      <Stack.Screen name="Add Movie" component={AddForm} />
+      <Stack.Screen name="Edit Movie" component={EditForm} />
+    </Stack.Navigator>
   );
 }
 

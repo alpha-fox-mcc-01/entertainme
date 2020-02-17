@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import { ApolloProvider } from "@apollo/react-hooks";
-import ApolloClient from "apollo-boost";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -13,7 +13,10 @@ import TvSeries from "./screens/TvSeries";
 import { Ionicons } from "@expo/vector-icons";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/"
+  uri: "http://localhost:4000/",
+  cache: new InMemoryCache({
+    addTypename: true
+  })
 });
 
 export default function App() {

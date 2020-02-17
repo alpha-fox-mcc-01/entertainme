@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-export const GET_TV_SERIES = gql`
+const GET_TV_SERIES = gql`
   {
     tvSeries {
       _id
@@ -13,7 +13,7 @@ export const GET_TV_SERIES = gql`
   }
 `;
 
-export const GET_MOVIES = gql`
+const GET_MOVIES = gql`
   {
     movies {
       _id
@@ -26,7 +26,7 @@ export const GET_MOVIES = gql`
   }
 `;
 
-export const ADD_MOVIE = gql`
+const ADD_MOVIE = gql`
   mutation AddMovie(
     $title: String!
     $overview: String!
@@ -51,7 +51,7 @@ export const ADD_MOVIE = gql`
   }
 `;
 
-export const ADD_TV_SERIES = gql`
+const ADD_TV_SERIES = gql`
   mutation AddTvSeries(
     $title: String!
     $overview: String!
@@ -76,8 +76,9 @@ export const ADD_TV_SERIES = gql`
   }
 `;
 
-export const EDIT_MOVIE = gql`
+const EDIT_MOVIE = gql`
   mutation EditMovie(
+    $id: ID!
     $title: String!
     $overview: String!
     $poster_path: String!
@@ -85,6 +86,7 @@ export const EDIT_MOVIE = gql`
     $tags: [String]!
   ) {
     editMovie(
+      id: $id
       title: $title
       overview: $overview
       poster_path: $poster_path
@@ -101,8 +103,9 @@ export const EDIT_MOVIE = gql`
   }
 `;
 
-export const EDIT_TV_SERIES = gql`
+const EDIT_TV_SERIES = gql`
   mutation EditTvSeries(
+    $id: ID!
     $title: String!
     $overview: String!
     $poster_path: String!
@@ -110,6 +113,7 @@ export const EDIT_TV_SERIES = gql`
     $tags: [String]!
   ) {
     editTvSeries(
+      id: $id
       title: $title
       overview: $overview
       poster_path: $poster_path
@@ -126,8 +130,8 @@ export const EDIT_TV_SERIES = gql`
   }
 `;
 
-export const DELETE_MOVIE = gql`
-  mutation DeleteMovie($id: ID) {
+const DELETE_MOVIE = gql`
+  mutation DeleteMovie($id: ID!) {
     deleteMovie(id: $id) {
       _id
       title
@@ -139,7 +143,7 @@ export const DELETE_MOVIE = gql`
   }
 `;
 
-export const DELETE_TV_SERIES = gql`
+const DELETE_TV_SERIES = gql`
   mutation DeleteTvSeries($id: ID) {
     deleteTvSeries(id: $id) {
       _id
@@ -151,3 +155,14 @@ export const DELETE_TV_SERIES = gql`
     }
   }
 `;
+
+export default {
+  GET_MOVIES,
+  GET_TV_SERIES,
+  ADD_MOVIE,
+  ADD_TV_SERIES,
+  EDIT_MOVIE,
+  EDIT_TV_SERIES,
+  DELETE_MOVIE,
+  DELETE_TV_SERIES
+};

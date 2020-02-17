@@ -8,22 +8,21 @@ import {
   ImageBackground
 } from "react-native";
 import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import Constants from "expo-constants";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Ionicons } from "@expo/vector-icons";
 
 import AddForm from "../components/AddForm";
 import EditForm from "../components/EditForm";
-import MyCarousel from "../components/MyCarousel";
-import {
-  GET_TV_SERIES,
-  ADD_TV_SERIES,
-  EDIT_TV_SERIES,
-  DELETE_TV_SERIES
-} from "../queries/";
 
-export default function Movies() {
+import queries from "../queries/";
+import MyCarousel from "../components/MyCarousel";
+const { GET_TV_SERIES } = queries;
+
+function HomeTvSeries({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
   const loadFont = async () => {
     await Font.loadAsync({
@@ -38,7 +37,6 @@ export default function Movies() {
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
-
   return (
     fontLoaded && (
       <ImageBackground
@@ -87,25 +85,67 @@ export default function Movies() {
             justifyContent: "space-between"
           }}
         >
-          <AddForm
-            ADD_QUERY={ADD_TV_SERIES}
-            GET_QUERY={GET_TV_SERIES}
-            resource="movies"
-            mutationName="addMovie"
-            action="Add New TV Series"
-          />
-          <EditForm
-            EDIT_QUERY={EDIT_TV_SERIES}
-            GET_QUERY={GET_TV_SERIES}
-            DELETE_QUERY={DELETE_TV_SERIES}
-            resource="tvSeries"
-            mutationName="addTvSeries"
-            action="Edit Series"
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.push("Add Tv Series", {
+                query: "GET_TV_SERIES",
+                mutation: "ADD_TV_SERIES",
+                resource: "tvSeries",
+                mutationName: "addTvSeries",
+                action: "Add New TV Series"
+              })
+            }
+            style={{
+              marginTop: "auto",
+              marginRight: "auto",
+              marginLeft: "auto",
+              marginBottom: 10,
+              borderWidth: 3,
+              borderColor: "tomato",
+              borderRadius: 15,
+              width: 160,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Ionicons name="ios-add" color="tomato" size={50} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              marginTop: "auto",
+              marginRight: "auto",
+              marginLeft: "auto",
+              marginBottom: 10,
+              borderWidth: 3,
+              borderColor: "tomato",
+              borderRadius: 15,
+              width: 160,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Ionicons name="ios-settings" color="tomato" size={40} />
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     )
-    // </View>
+  );
+}
+
+export default function TvSeries() {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <Stack.Screen name="Home" component={HomeTvSeries} />
+      <Stack.Screen name="Add Tv Series" component={AddForm} />
+    </Stack.Navigator>
   );
 }
 

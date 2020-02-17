@@ -43,7 +43,20 @@ export default function MyCarousel(props) {
             }}
           />
           <View style={styles.information}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.push("Edit Movie", {
+                  query: "GET_MOVIES",
+                  mutation: "EDIT_MOVIE",
+                  resource: "movies",
+                  mutationName: "editMovie",
+                  deleteMutation: "DELETE_MOVIE",
+                  deleteMutationName: "deleteMovie",
+                  action: "View/Edit Movie",
+                  document: item
+                })
+              }
+            >
               <Text style={{ fontSize: 20, fontFamily: "Montserrat-Regular" }}>
                 {item.title.slice(0, 20)}
                 {item.title.length >= 20 && <Text>...</Text>}
