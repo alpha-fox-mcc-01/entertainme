@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Modal, Text, TouchableHighlight, View, Alert,  TextInput,
+import { Text,  View, TextInput,
     Button, StyleSheet} from "react-native";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider, useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 const GET_MOVIES = gql`

@@ -9,6 +9,7 @@ import SlideSeries from "./SlideSeries";
 import ListMovies from "./ListMovies";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ListSeries from "./ListSeries"
+import DrawerNav from "./DrawerNav"
 
 const GET_MOVIES = gql`
   {
@@ -84,7 +85,7 @@ export default function Home({ navigation }) {
         }}
       />
       <ScrollView style={styles.container}>
-        <View style={{ height: 200, borderRadius: 6 }}>
+        <View style={{ height: 200, borderRadius: 6, marginBottom: 20 }}>
           <WebView
             style={styles.WebViewContainer}
             javaScriptEnabled={true}
@@ -121,6 +122,6 @@ const styles = StyleSheet.create({
   },
   WebViewContainer: {
     marginTop: 0,
-    borderRadius: 6
+    borderRadius: 6,
   }
 });
