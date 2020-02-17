@@ -10,6 +10,14 @@ module.exports = {
   },
   addMovie(req, res, next) {
     let { title, overview, poster_path, popularity, tags } = req.body;
+    if (
+      !poster_path ||
+      poster_path == "" ||
+      poster_path.slice(0, 3).toLowerCase() !== "htt" ||
+      poster_path.slice(0, 3).toLowerCase() !== "www"
+    )
+      poster_path =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTb481OSt5pyxs0sDiBLtbJSYBqQDFijRlhf74kfk4Wtz5Qo5-z";
     Movie.create({
       title,
       overview,
@@ -24,6 +32,14 @@ module.exports = {
   },
   editMovie(req, res, next) {
     let { title, overview, poster_path, popularity, tags } = req.body;
+    if (
+      !poster_path ||
+      poster_path == "" ||
+      poster_path.slice(0, 3).toLowerCase() !== "htt" ||
+      poster_path.slice(0, 3).toLowerCase() !== "www"
+    )
+      poster_path =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTb481OSt5pyxs0sDiBLtbJSYBqQDFijRlhf74kfk4Wtz5Qo5-z";
     Movie.findByIdAndUpdate(
       req.params.id,
       {

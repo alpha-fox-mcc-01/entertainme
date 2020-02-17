@@ -14,6 +14,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Constants from "expo-constants";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import * as Progress from "react-native-progress";
 
 import AddForm from "../components/AddForm";
 import EditForm from "../components/EditForm";
@@ -37,8 +38,20 @@ function HomeMovies({ navigation }) {
   }, []);
   const { loading, error, data } = useQuery(GET_MOVIES);
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error.message}</Text>;
+  if (loading)
+    return <Progress.Bar width={200} indeterminate={true} color="tomato" />;
+  if (error)
+    return (
+      <Text
+        style={{
+          alignSelf: "center",
+          color: "white",
+          textSize: 20
+        }}
+      >
+        Sorry, something went wrong
+      </Text>
+    );
   return (
     fontLoaded && (
       <ImageBackground

@@ -165,7 +165,7 @@ export default function EditForm({ route, navigation }) {
               style={{ alignSelf: "center", marginTop: 20 }}
             />
             <TextInput
-              placeholder="Tags..."
+              placeholder="Tags(separate with commas)..."
               style={styles.inputField}
               onChangeText={text => setTags(text.split(","))}
               value={tags.join(",")}
