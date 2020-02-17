@@ -31,7 +31,8 @@ export default function EditForm({ route, navigation }) {
     mutation,
     document,
     deleteMutationName,
-    deleteMutation
+    deleteMutation,
+    listName
   } = route.params;
 
   const [title, setTitle] = useState(document.title);
@@ -39,6 +40,9 @@ export default function EditForm({ route, navigation }) {
   const [poster_path, setPosterPath] = useState(document.poster_path);
   const [popularity, setPopularity] = useState(document.popularity.toString());
   const [tags, setTags] = useState(document.tags);
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showDelete, setShowDelete] = useState(true);
 
   const [editNew, { loading, error, data }] = useMutation(queries[mutation], {
     update(cache, { data }) {
@@ -239,7 +243,7 @@ export default function EditForm({ route, navigation }) {
                 setPosterPath("");
                 setPopularity("");
                 setTags([]);
-                navigation.push("Home");
+                navigation.goBack();
               }}
             >
               <View
@@ -265,48 +269,92 @@ export default function EditForm({ route, navigation }) {
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                borderWidth: 3,
-                marginTop: 15,
-                padding: 3,
-                alignSelf: "center",
-                width: 200,
-                height: 37,
-                borderRadius: 10,
-                borderColor: "grey",
-                justifyContent: "center"
-              }}
-              onPress={() => {
-                deleteNew({
-                  variables: { id: document._id }
-                });
-                navigation.navigate("Home");
-              }}
-            >
-              <View
+            {showDelete && (
+              <TouchableOpacity
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between"
+                  borderWidth: 3,
+                  marginTop: 15,
+                  padding: 3,
+                  alignSelf: "center",
+                  width: 200,
+                  height: 37,
+                  borderRadius: 10,
+                  borderColor: "grey",
+                  justifyContent: "center"
+                }}
+                onPress={() => {
+                  setShowDelete(false);
+                  setShowConfirm(true);
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontFamily: "Montserrat-Regular",
-                    fontSize: 20,
-                    color: "grey"
+                    flexDirection: "row",
+                    justifyContent: "space-between"
                   }}
                 >
-                  Delete
-                </Text>
-                <Ionicons
-                  name="ios-trash"
-                  color="grey"
-                  size={33}
-                  style={{ marginRight: 10 }}
-                />
-              </View>
-            </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontFamily: "Montserrat-Regular",
+                      fontSize: 20,
+                      color: "grey"
+                    }}
+                  >
+                    Delete
+                  </Text>
+                  <Ionicons
+                    name="ios-trash"
+                    color="grey"
+                    size={33}
+                    style={{ marginRight: 10 }}
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
+            {showConfirm && (
+              <TouchableOpacity
+                style={{
+                  borderWidth: 3,
+                  marginTop: 15,
+                  padding: 3,
+                  alignSelf: "center",
+                  width: 200,
+                  height: 37,
+                  borderRadius: 10,
+                  borderColor: "tomato",
+                  justifyContent: "center"
+                }}
+                onPress={() => {
+                  deleteNew({
+                    variables: { id: document._id }
+                  });
+                  navigation.navigate("Home");
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Montserrat-Regular",
+                      fontSize: 20,
+                      color: "tomato"
+                    }}
+                  >
+                    Confirm
+                  </Text>
+                  <Ionicons
+                    name="ios-trash"
+                    color="tomato"
+                    size={33}
+                    style={{ marginRight: 10 }}
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
         </ImageBackground>
       </ScrollView>

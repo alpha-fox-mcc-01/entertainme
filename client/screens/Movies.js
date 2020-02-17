@@ -19,8 +19,10 @@ import AddForm from "../components/AddForm";
 import EditForm from "../components/EditForm";
 
 import queries from "../queries/";
-import MyCarousel from "../components/MyCarousel";
 const { GET_MOVIES } = queries;
+import MyCarousel from "../components/MyCarousel";
+
+import MediaList from "../components/MediaList";
 
 function HomeMovies({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -116,7 +118,9 @@ function HomeMovies({ navigation }) {
             <Ionicons name="ios-add" color="tomato" size={50} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setModalVisible(true)}
+            onPress={() =>
+              navigation.push("List Movies", { items: data.movies })
+            }
             style={{
               marginTop: "auto",
               marginRight: "auto",
@@ -150,6 +154,7 @@ export default function Movies() {
       <Stack.Screen name="Home" component={HomeMovies} />
       <Stack.Screen name="Add Movie" component={AddForm} />
       <Stack.Screen name="Edit Movie" component={EditForm} />
+      <Stack.Screen name="List Movies" component={MediaList} />
     </Stack.Navigator>
   );
 }

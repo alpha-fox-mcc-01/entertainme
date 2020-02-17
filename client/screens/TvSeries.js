@@ -17,6 +17,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import AddForm from "../components/AddForm";
 import EditForm from "../components/EditForm";
+import MediaList from "../components/MediaList";
 
 import queries from "../queries/";
 import MyCarousel from "../components/MyCarousel";
@@ -116,7 +117,9 @@ function HomeTvSeries({ navigation }) {
             <Ionicons name="ios-add" color="tomato" size={50} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setModalVisible(true)}
+            onPress={() =>
+              navigation.push("List TvSeries", { items: data.tvSeries })
+            }
             style={{
               marginTop: "auto",
               marginRight: "auto",
@@ -150,6 +153,7 @@ export default function TvSeries() {
       <Stack.Screen name="Home" component={HomeTvSeries} />
       <Stack.Screen name="Add TvSeries" component={AddForm} />
       <Stack.Screen name="Edit TvSeries" component={EditForm} />
+      <Stack.Screen name="List TvSeries" component={MediaList} />
     </Stack.Navigator>
   );
 }

@@ -207,7 +207,7 @@ export default function AddForm({ route, navigation }) {
                 setPosterPath("");
                 setPopularity("");
                 setTags([]);
-                navigation.push("Home");
+                navigation.goBack();
               }}
             >
               <View
