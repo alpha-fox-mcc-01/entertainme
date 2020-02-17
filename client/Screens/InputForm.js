@@ -2,44 +2,8 @@ import React, { useState } from "react";
 import { Text,  View, TextInput,
     Button, StyleSheet} from "react-native";
 import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { ADD_MOVIE, GET_MOVIES } from '../Queries';
 
-const GET_MOVIES = gql`
-  {
-    movies {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
-
-const ADD_MOVIE = gql`
-  mutation AddMovie(
-    $title: String
-    $popularity: Float
-    $tags: [String]
-    $poster_path: String
-    $overview: String
-  ) {
-    addMovies(
-      title: $title
-      popularity: $popularity
-      tags: $tags
-      poster_path: $poster_path
-      overview: $overview
-    ) {
-      _id
-      title
-      poster_path
-      popularity
-      overview
-      tags
-    }
-  }
-`;  
 export default function InputForm() {
 
   const [title, onChangeTitle] = useState("");

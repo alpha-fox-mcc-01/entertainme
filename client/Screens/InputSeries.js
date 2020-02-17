@@ -2,46 +2,8 @@ import React, { useState } from "react";
 import { Text, View, TextInput,
     Button, StyleSheet} from "react-native";
 import {  useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { ADD_SERIES, GET_SERIES } from '../Queries';
 
-
-
-const GET_SERIES = gql`
-  {
-    tvseries {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
-
-const ADD_SERIES = gql`
-  mutation AddSeries(
-    $title: String
-    $popularity: Float
-    $tags: [String]
-    $poster_path: String
-    $overview: String
-  ) {
-    addSeries(
-      title: $title
-      popularity: $popularity
-      tags: $tags
-      poster_path: $poster_path
-      overview: $overview
-    ) {
-      _id
-      title
-      poster_path
-      popularity
-      overview
-      tags
-    }
-  }
-`;  
 export default function InputSeries() {
   const [title, onChangeTitle] = useState("");
   const [popularity, onChangePopularity] = useState(null);

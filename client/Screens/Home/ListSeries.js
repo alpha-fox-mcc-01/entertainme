@@ -1,26 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Icon } from "native-base";
 import { Header } from "react-native-elements";
-
-const GET_SERIES = gql`
-  {
-    tvseries {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
+import { GET_SERIES } from "../../Queries"
 
 export default function ListMovie({ navigation }) {
   const { loading: loadSerial, error: errorSerial, data } = useQuery(
     GET_SERIES
   );
+  const starCounter = (points) => {
+    let stars = ''
+    while ( points > 2) {
+      points -= 2
+      stars += '⭐'
+      
+    }
+    return stars
+  }
 
   return (
     <View style={styles.container}>
@@ -52,8 +49,8 @@ export default function ListMovie({ navigation }) {
             </View>
             <View style={styles.textMargin}>
               <Text style={{ color: "white" }}> {item.title}</Text>
-              <Text style={{ color: "white" }}> {item.popularity}</Text>
-              <Text style={{ color: "white" }}>{item.overview}</Text>
+              <Text style={{ color: "white"}}> {item.popularity}     { starCounter(item.popularity)}</Text>
+              <Text style={{ color: "white" }}>  {item.overview.length > 180? item.overview.slice(0, 180).concat('...') : item.overview} </Text>
             </View>
           </View>
         )}
@@ -88,7 +85,6 @@ const styles = StyleSheet.create({
     flexShrink: 1
   },
   textMargin: {
-    marginLeft: 4,
     marginTop: 3,
     flexShrink: 1
   },

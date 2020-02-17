@@ -7,21 +7,20 @@ import {
     FlatList
   } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";  
 import { Icon } from "native-base";
 import { Header } from "react-native-elements";
-  const GET_MOVIES = gql`
-  {
-    movies {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
+import { GET_MOVIES } from '../../Queries';
 
+
+const starCounter = (points) => {
+  let stars = ''
+  while ( points > 2) {
+    points -= 2
+    stars += '⭐'
+    
+  }
+  return stars
+}
 export default function ListMovie({navigation}) {
     const { loading, error, data } = useQuery(GET_MOVIES);
 
@@ -56,9 +55,9 @@ export default function ListMovie({navigation}) {
                 </View>
                 <View style={styles.textMargin}>
                   <Text style={{ color: "white" }}> {item.title}</Text>
-                  <Text style={{ color: "white" }}> {item.popularity}</Text>
+                  <Text style={{ color: "white"}}> {item.popularity}     { starCounter(item.popularity)}</Text>
                   <Text style={{ color: "white" }}>
-                    {item.overview}
+                    {item.overview.length > 180? item.overview.slice(0, 180).concat('...') : item.overview} 
                   </Text>
                 </View>
               </View>
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start'
     },
     textMargin: {
-      marginLeft: 4,
+      flexShrink: 1,
       marginTop: 3
     },
     horizontal: {

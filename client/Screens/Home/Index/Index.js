@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Header } from "react-native-elements";
 import { WebView } from "react-native-webview";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
@@ -8,66 +7,14 @@ import { Icon } from "native-base";
 
 import SlideMovies from "./components/SlideMovies";
 import SlideSeries from './components/SlideSeries';
+import { GET_SERIES, GET_MOVIES }  from "../../../Queries"
 
-const GET_MOVIES = gql`
-  {
-    movies {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
-
-const GET_SERIES = gql`
-  {
-    tvseries {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-    }
-  }
-`;
-
-const ADD_MOVIE = gql`
-  mutation AddMovie(
-    $title: String
-    $popularity: Float
-    $tags: [String]
-    $poster_path: String
-    $overview: String
-  ) {
-    addMovies(
-      title: $title
-      popularity: $popularity
-      tags: $tags
-      poster_path: $poster_path
-      overview: $overview
-    ) {
-      _id
-      title
-      poster_path
-      popularity
-      overview
-      tags
-    }
-  }
-`;
 
 export default function Index({ navigation }) {
   const { loading, error, data } = useQuery(GET_MOVIES);
   const { loading: loadSerial, error: errorSerial, data: serial } = useQuery(
     GET_SERIES
   );
-
-  useEffect(() => {
-    console.log("navigation", navigation);
-  }, []);
-
   if (loading) return <Text>Loading Movies...</Text>;
   if (loadSerial) return <Text>Loading Series...</Text>;
   if (error) return <Text>Error movies...</Text>;
