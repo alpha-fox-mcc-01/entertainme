@@ -3,20 +3,19 @@ import { Text, View, ScrollView, TouchableOpacity } from 'react-native'
 
 import styles from '../styles/index.style'
 import Section from '../components/Section'
+import WatchList from '../components/WatchList'
 
 export default function CurrentWatchlist({ navigation }) {
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View>
-          <View style={styles.discoverContainer}>
-            <Text style={styles.discoverHeader}>E N T E R T A I N M E</Text>
-            <Text style={styles.discoverSubHeader}>a personalized watchlist</Text>
-          </View>
-          <Section header='Movies' navigation={navigation} />
-          <Section header='TV Series' navigation={navigation} />
+      <View>
+        <View style={styles.discoverContainer}>
+          <Text style={styles.discoverHeader}>E N T E R T A I N M E</Text>
+          <Text style={styles.discoverSubHeader}>a personalized watchlist</Text>
         </View>
-      </ScrollView>
+        <Section header='Movies' navigation={navigation} />
+      </View>
+      {/* <WatchList navigation={navigation} /> */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {

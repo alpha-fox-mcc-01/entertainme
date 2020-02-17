@@ -17,10 +17,9 @@ export default function WatchlistDetail({ route, navigation }) {
   const [changeTags] = useMutation(CHANGE_TAGS)
   const [deleteWatchlist] = useMutation(DELETE_WATCHLIST)
 
-  const { loading, error, data, refetch } = useQuery(GET_MOVIE, {
-    variables: {
-      imdbId: imdbId,
-    },
+  const { loading, error, data, refetch, networkStatus } = useQuery(GET_MOVIE, {
+    variables: { imdbId: imdbId },
+    notifyOnNetworkStatusChange: true,
   })
   const {
     data: tagsData,
@@ -47,8 +46,6 @@ export default function WatchlistDetail({ route, navigation }) {
   }
 
   if (loading || tagsLoading) {
-    console.log('loading', loading)
-    console.log('tagsLoading', tagsLoading)
     return (
       <View style={styles.loadingContainer}>
         <Text style={styles.loading}>pls wait~</Text>
@@ -63,9 +60,9 @@ export default function WatchlistDetail({ route, navigation }) {
       <View style={styles.container}>
         <Image source={{ uri: poster_path }} style={styles.background} />
         <LinearGradient
-          colors={['rgba(52,55,70,0.7)', 'rgba(52,55,70,1)']}
+          colors={['rgba(52,55,70,0.4)', 'rgba(52,55,70,0.9)']}
           start={[0, 0]}
-          end={[0, 0.5]}
+          end={[0, 0.6]}
           style={styles.backgroundTinter}
         />
         <View style={styles.movieDetailContainer}>

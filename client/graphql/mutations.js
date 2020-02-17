@@ -13,6 +13,7 @@ export const ADD_MOVIETOWATCHLIST = gql`
       popularity: $popularity
       poster_path: $poster_path
     ) {
+      _id
       imdbId
       title
       popularity

@@ -14,7 +14,6 @@ export default function Section({ header, navigation }) {
     query = GETALL_MOVIES
   }
   const { loading, error, data, refetch } = useQuery(query)
-  const [watchlist, setWatchlist] = useState()
 
   useEffect(() => {
     navigation.addListener('focus', (payload) => {

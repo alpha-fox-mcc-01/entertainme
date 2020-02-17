@@ -5,17 +5,30 @@ import { LinearGradient } from 'expo-linear-gradient'
 import styles from '../styles/movieDetail.style'
 
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { GET_MOVIE } from '../graphql/queries'
+import { GET_MOVIE, GETALL_MOVIES } from '../graphql/queries'
 import { ADD_MOVIETOWATCHLIST } from '../graphql/mutations'
 
 export default function MovieDetail({ route, navigation }) {
   const imdbId = route.params.imdbId
-  const [addMovieToWatchlist] = useMutation(ADD_MOVIETOWATCHLIST)
+  const [addMovieToWatchlist] = useMutation(ADD_MOVIETOWATCHLIST, {
+    update(cache, { data: { addMovie } }) {
+      // baca cache
+      const { movies } = cache.readQuery({ query: GETALL_MOVIES })
+      cache.writeQuery({
+        query: GETALL_MOVIES,
+        data: {
+          movies: movies.concat([addMovie]),
+        },
+      })
+      console.log('cache updated')
+    },
+  })
   const { loading, error, data, refetch } = useQuery(GET_MOVIE, {
     variables: {
       imdbId: imdbId,
     },
   })
+
   useEffect(() => {
     refetch()
   }, [])

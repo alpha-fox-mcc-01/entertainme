@@ -31,7 +31,6 @@ class MoviesController {
       tags: trimmed,
     })
       .then((result) => {
-        console.log(result)
         res.status(201).json(result)
       })
       .catch(console.log)
@@ -82,7 +81,6 @@ class MoviesController {
       res.status(204).json({})
     }
   }
-
   static delete(req, res) {
     const { id } = req.params
     Movie.deleteOne({ _id: id })
