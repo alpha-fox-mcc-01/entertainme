@@ -1,0 +1,19 @@
+{
+  "name": "OrchestratorServices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.10.0",
+    "axios": "^0.19.2",
+    "graphql": "^14.6.0",
+    "ioredis": "^4.14.1",
+    "mongoose": "^5.8.11"
+  }
+}
