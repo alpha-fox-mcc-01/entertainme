@@ -6,9 +6,10 @@ import {
     Image,
     FlatList
   } from "react-native";
-import { ApolloProvider, useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";  
-
+import { Icon } from "native-base";
+import { Header } from "react-native-elements";
   const GET_MOVIES = gql`
   {
     movies {
@@ -21,11 +22,26 @@ import gql from "graphql-tag";
   }
 `;
 
-export default function ListMovie(props) {
+export default function ListMovie({navigation}) {
     const { loading, error, data } = useQuery(GET_MOVIES);
 
     return (
         <View style={styles.container}>
+           <Header
+        statusBarProps={{ barStyle: "light-content" }}
+        leftComponent={
+          <Icon
+            style={{ color: "white" }}
+            name="menu"
+            onPress={() => navigation.openDrawer()}
+          />
+        }
+        placement="left"
+        centerComponent={{ text: "entertainMe", style: { color: "red" } }}
+        containerStyle={{
+          backgroundColor: "black"
+        }}
+      />
         <FlatList
           data={data.movies}
           renderItem={({ item }) => (

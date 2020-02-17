@@ -2,12 +2,12 @@ import React from "react";
 import { StyleSheet} from "react-native";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider} from "@apollo/react-hooks";
-import Home from "./Home";
+import Home from "./Screens/Home/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-import InputForm from "./InputForm";
-import InputSeries from "./InputSeries";
+import InputForm from "./Screens/InputForm.js";
+import InputSeries from "./Screens/InputSeries.js";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000"

@@ -50,7 +50,6 @@ export default function InputSeries() {
   const [overview, onChangeOverview] = useState("")
   const [addSeries] = useMutation(ADD_SERIES, {
     update(cache, { data: { addSeries} }) {
-      console.log('masuk update cache')
       const { tvseries } = cache.readQuery({ query: GET_SERIES });
       console.log(cache)
       cache.writeQuery({
