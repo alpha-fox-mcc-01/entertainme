@@ -79,9 +79,9 @@ export default function Movies() {
           style={{
             marginTop: "auto",
             flexDirection: "row",
-            justifyContent: "space-around",
-            width: 320,
-            alignSelf: "center"
+            width: 330,
+            alignSelf: "center",
+            justifyContent: "space-between"
           }}
         >
           <AddForm
