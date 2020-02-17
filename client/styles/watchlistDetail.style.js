@@ -9,6 +9,10 @@ export default StyleSheet.create({
     paddingTop: Constants.statusBarHeight * 2,
     backgroundColor: colors.bgDark,
   },
+  fave: {
+    fontSize: 50,
+    color: 'black',
+  },
   loadingContainer: {
     flex: 1,
     alignItems: 'center',

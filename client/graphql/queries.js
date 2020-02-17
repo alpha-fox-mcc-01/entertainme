@@ -11,6 +11,19 @@ export const GETALL_MOVIES = gql`
     }
   }
 `
+
+export const GET_FAVES = gql`
+  query {
+    movies {
+      _id
+      title
+      popularity
+      poster_path
+      imdbId
+    }
+  }
+`
+
 export const GET_TAGS = gql`
   query GetTags($id: String!) {
     movie(id: $id) {

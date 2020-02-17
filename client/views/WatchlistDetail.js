@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import styles from '../styles/watchlistDetail.style'
 
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { GET_MOVIE, GET_TAGS } from '../graphql/queries'
+import { GET_MOVIE, GET_TAGS, GETALL_MOVIES } from '../graphql/queries'
 import { CHANGE_TAGS, DELETE_WATCHLIST } from '../graphql/mutations'
 
 export default function WatchlistDetail({ route, navigation }) {
@@ -15,10 +15,23 @@ export default function WatchlistDetail({ route, navigation }) {
   const [inputtedTags, setInputtedTags] = useState('')
 
   const [changeTags] = useMutation(CHANGE_TAGS)
-  const [deleteWatchlist] = useMutation(DELETE_WATCHLIST)
+  const [deleteWatchlist] = useMutation(DELETE_WATCHLIST, {
+    update(cache, { data: deleteMovie }) {
+      const { movies } = cache.readQuery({ query: GETALL_MOVIES })
 
-  const { loading, error, data, refetch, networkStatus } = useQuery(GET_MOVIE, {
+      cache.writeQuery({
+        query: GETALL_MOVIES,
+        data: {
+          movies: movies.filter((row) => row._id !== _id),
+        },
+      })
+    },
+  })
+
+  const { loading, error, data, refetch } = useQuery(GET_MOVIE, {
     variables: { imdbId: imdbId },
+
+    // pass notifyOnNetworkStatusChange option to true so our query component re-renders while a refetch is in flighta
     notifyOnNetworkStatusChange: true,
   })
   const {
@@ -69,7 +82,7 @@ export default function WatchlistDetail({ route, navigation }) {
           <View style={styles.mainInfo}>
             <Image source={{ uri: poster_path }} style={styles.thumbnail} />
             <View style={{ width: '100%', flexShrink: 1 }}>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>❤️ {title}</Text>
               <Text style={styles.info}>Year: {year}</Text>
               <Text style={styles.info}>Rating: {popularity}</Text>
               <Text style={styles.info}>Synopsis:</Text>
@@ -116,7 +129,6 @@ export default function WatchlistDetail({ route, navigation }) {
                       tags: stringifiedTags,
                     },
                   }).then(() => {
-                    refetch()
                     tagsRefetch()
                     setInputtedTags('')
                   })

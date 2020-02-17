@@ -9,12 +9,14 @@ export default StyleSheet.create({
     flex: 1,
     paddingTop: Constants.statusBarHeight * 2,
     backgroundColor: colors.bgDark,
-    paddingBottom: 60,
   },
   headerContainer: {
     marginLeft: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tab: {
+    backgroundColor: colors.bgDark,
   },
   headerTitle: {
     fontSize: 34,
@@ -33,7 +35,7 @@ export default StyleSheet.create({
   watchlistBar: {
     flexDirection: 'row',
     paddingLeft: Constants.statusBarHeight,
-    paddingVertical: Constants.statusBarHeight,
+    marginTop: Constants.statusBarHeight,
   },
   discoverContainer: {
     marginBottom: 36,

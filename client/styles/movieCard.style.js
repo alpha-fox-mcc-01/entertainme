@@ -11,7 +11,9 @@ export default StyleSheet.create({
     paddingBottom: Constants.statusBarHeight,
   },
   thumbnailContainer: {
+    backgroundColor: colors.bgDarkerDark,
     width: thumbnailWidth,
+    borderRadius: 6,
   },
   thumbnail: {
     width: thumbnailWidth,
@@ -37,9 +39,21 @@ export default StyleSheet.create({
     right: -10,
     paddingVertical: 8,
     paddingHorizontal: 14,
+    elevation: 2,
+    borderRadius: 4,
+    backgroundColor: colors.bgLighterDark,
+  },
+  onCardDeleteButton: {
+    position: 'absolute',
+    right: 10,
+    padding: 16,
+    alignSelf: 'center',
     elevation: 3,
     borderRadius: 28,
-    backgroundColor: colors.bgLighterDark,
+    backgroundColor: '#b22',
+  },
+  deleteConfirm: {
+    color: colors.accent.white,
   },
   rating: {
     color: colors.accent.yellow,

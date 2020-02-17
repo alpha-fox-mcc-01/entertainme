@@ -1,16 +1,5 @@
 import React, { useState } from 'react'
-import {
-  Animated,
-  Dimensions,
-  Keyboard,
-  UIManager,
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView,
-  FlatList,
-} from 'react-native'
+import { View, Text, TextInput, ScrollView, FlatList } from 'react-native'
 
 import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 import { SEARCH_MOVIES } from '../graphql/queries'

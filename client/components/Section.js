@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { GETALL_MOVIES } from '../graphql/queries'
 
 export default function Section({ header, navigation }) {
+  const [keyword, setKeyword] = useState('')
   let query
   if (header == 'Movies') {
     query = GETALL_MOVIES
@@ -24,6 +25,13 @@ export default function Section({ header, navigation }) {
   if (loading) {
     return <Text>Loading</Text>
   } else {
+    let renderData = data.movies
+    if (keyword.length > 0) {
+      renderData = data.movies.filter((row) => row.title.includes(keyword))
+    } else {
+      renderData = data.movies
+    }
+
     return (
       <View>
         <View style={styles.headerContainer}>
@@ -35,13 +43,17 @@ export default function Section({ header, navigation }) {
             clearTextOnFocus={true}
             placeholder={'fliter...'}
             returnKeyType='search'
+            value={keyword}
+            onChangeText={(value) => {
+              setKeyword(value)
+            }}
           />
         </View>
         <View>
           <FlatList
             contentContainerStyle={styles.watchlistBar}
             horizontal={true}
-            data={data.movies}
+            data={renderData}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => {
               return <MovieCard navigation={navigation} data={item} />
