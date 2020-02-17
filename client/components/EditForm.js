@@ -45,9 +45,15 @@ export default function EditForm({ route, navigation }) {
       const currentMovies = cache.readQuery({ query: queries[query] })[
         resource
       ];
+      let newMovies = currentMovies;
+      newMovies.forEach((movie, i) => {
+        if (movie._id == data._id) {
+          newMovies[i] = data;
+        }
+      });
       cache.writeQuery({
         query: queries[query],
-        data: { [resource]: [data[mutationName], ...currentMovies] }
+        data: { [resource]: newMovies }
       });
     }
   });

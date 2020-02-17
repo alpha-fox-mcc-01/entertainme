@@ -64,7 +64,11 @@ function HomeMovies({ navigation }) {
             EntertainMe
           </Text>
         </View>
-        <MyCarousel entries={data.movies} navigation={navigation} />
+        <MyCarousel
+          entries={data.movies}
+          navigation={navigation}
+          screenToGo="Edit Movie"
+        />
         <View
           style={{
             position: "absolute",
@@ -127,7 +131,7 @@ function HomeMovies({ navigation }) {
               justifyContent: "center"
             }}
           >
-            <Ionicons name="ios-settings" color="tomato" size={40} />
+            <Ionicons name="ios-albums" color="tomato" size={30} />
           </TouchableOpacity>
         </View>
       </ImageBackground>

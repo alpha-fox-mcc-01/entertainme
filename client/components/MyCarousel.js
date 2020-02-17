@@ -27,7 +27,18 @@ export default function MyCarousel(props) {
     loadFont();
   }, []);
 
-  const { entries } = props;
+  const {
+    entries,
+    navigation,
+    query,
+    screenToGo,
+    mutation,
+    resource,
+    mutationName,
+    deleteMutation,
+    deleteMutationName,
+    action
+  } = props;
   const _renderItem = ({ item, index }) => {
     return (
       <>
@@ -45,7 +56,7 @@ export default function MyCarousel(props) {
           <View style={styles.information}>
             <TouchableOpacity
               onPress={() =>
-                props.navigation.push("Edit Movie", {
+                navigation.push("Edit Movie", {
                   query: "GET_MOVIES",
                   mutation: "EDIT_MOVIE",
                   resource: "movies",

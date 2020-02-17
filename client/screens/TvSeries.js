@@ -64,7 +64,7 @@ function HomeTvSeries({ navigation }) {
             EntertainMe
           </Text>
         </View>
-        <MyCarousel entries={data.tvSeries} />
+        <MyCarousel entries={data.tvSeries} navigation={navigation} />
         <View
           style={{
             position: "absolute",
@@ -87,7 +87,7 @@ function HomeTvSeries({ navigation }) {
         >
           <TouchableOpacity
             onPress={() =>
-              navigation.push("Add Tv Series", {
+              navigation.push("Add TvSeries", {
                 query: "GET_TV_SERIES",
                 mutation: "ADD_TV_SERIES",
                 resource: "tvSeries",
@@ -127,7 +127,7 @@ function HomeTvSeries({ navigation }) {
               justifyContent: "center"
             }}
           >
-            <Ionicons name="ios-settings" color="tomato" size={40} />
+            <Ionicons name="ios-albums" color="tomato" size={30} />
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -144,7 +144,8 @@ export default function TvSeries() {
       }}
     >
       <Stack.Screen name="Home" component={HomeTvSeries} />
-      <Stack.Screen name="Add Tv Series" component={AddForm} />
+      <Stack.Screen name="Add TvSeries" component={AddForm} />
+      <Stack.Screen name="Edit TvSeries" component={EditForm} />
     </Stack.Navigator>
   );
 }
