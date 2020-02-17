@@ -38,52 +38,56 @@ export default function MyCarousel(props) {
               width: "65%",
               height: "53%",
               alignSelf: "center",
-              marginTop: 70,
+              marginTop: 75,
               borderRadius: 15
             }}
           />
           <View style={styles.information}>
-            <Text style={{ fontSize: 20, fontFamily: "Montserrat-Regular" }}>
-              {item.title.slice(0, 20)}
-              {item.title.length >= 20 && <Text>...</Text>}
-            </Text>
-            <View style={{ flexDirection: "row", marginTop: 10 }}>
-              <Text style={{ color: "grey", fontFamily: "Montserrat-Regular" }}>
-                Popularity: &nbsp;
+            <TouchableOpacity>
+              <Text style={{ fontSize: 20, fontFamily: "Montserrat-Regular" }}>
+                {item.title.slice(0, 20)}
+                {item.title.length >= 20 && <Text>...</Text>}
               </Text>
-              <Progress.Bar
-                progress={item.popularity / 10}
-                height={20}
-                animationType="spring"
-                animated={true}
-                color="grey"
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                marginTop: 15,
-                justifyContent: "space-around",
-                width: 250
-              }}
-            >
-              {item.tags.slice(0, 2).map(tag => (
-                <View
-                  key={Math.random()}
-                  style={{
-                    height: 25,
-                    width: 100,
-                    borderRadius: 13,
-                    backgroundColor: "#b8d5cd",
-                    alignItems: "center"
-                  }}
+              <View style={{ flexDirection: "row", marginTop: 10 }}>
+                <Text
+                  style={{ color: "grey", fontFamily: "Montserrat-Regular" }}
                 >
-                  <Text style={{ fontFamily: "Montserrat-Regular" }}>
-                    {tag}
-                  </Text>
-                </View>
-              ))}
-            </View>
+                  Popularity: &nbsp;
+                </Text>
+                <Progress.Bar
+                  progress={item.popularity / 10}
+                  height={20}
+                  animationType="spring"
+                  animated={true}
+                  color="grey"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginTop: 15,
+                  justifyContent: "space-around",
+                  width: 250
+                }}
+              >
+                {item.tags.slice(0, 2).map(tag => (
+                  <View
+                    key={Math.random()}
+                    style={{
+                      height: 25,
+                      width: 100,
+                      borderRadius: 13,
+                      backgroundColor: "#b8d5cd",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={{ fontFamily: "Montserrat-Regular" }}>
+                      {tag}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </TouchableOpacity>
             <ScrollView
               style={{
                 marginTop: 10,

@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
 
 export default function AddMovieForm(props) {
-  const { ADD_QUERY, GET_QUERY, resource, mutationName } = props;
+  const { EDIT_QUERY, GET_QUERY, DELETE_QUERY, resource, mutationName } = props;
 
   const [title, setTitle] = useState("");
   const [overview, setOverview] = useState("");
@@ -24,7 +24,7 @@ export default function AddMovieForm(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [addNew, { loading, error, data }] = useMutation(ADD_QUERY, {
+  const [editNew, { loading, error, data }] = useMutation(EDIT_QUERY, {
     update(cache, { data }) {
       const currentMovies = cache.readQuery({ query: GET_QUERY })[resource];
       cache.writeQuery({
@@ -34,6 +34,15 @@ export default function AddMovieForm(props) {
     }
   });
 
+  const [deleteNew] = useMutation(DELETE_QUERY, {
+    update(cache, { data }) {
+      const currentMovies = cache.readQuery({ query: GET_QUERY })[resource];
+      cache.writeQuery({
+        query: GET_QUERY,
+        data: { [resource]: [data[mutationName], ...currentMovies] }
+      });
+    }
+  });
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
 
@@ -105,7 +114,7 @@ export default function AddMovieForm(props) {
                 justifyContent: "center"
               }}
               onPress={() => {
-                addNew({
+                editNew({
                   variables: {
                     title,
                     overview,
@@ -135,7 +144,7 @@ export default function AddMovieForm(props) {
                     color: "lightgreen"
                   }}
                 >
-                  Submit
+                  Update
                 </Text>
                 <Ionicons
                   name="ios-checkmark"
@@ -189,6 +198,59 @@ export default function AddMovieForm(props) {
                 />
               </View>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                borderWidth: 3,
+                marginTop: 40,
+                padding: 3,
+                alignSelf: "center",
+                width: 200,
+                height: 37,
+                borderRadius: 10,
+                borderColor: "grey",
+                justifyContent: "center"
+              }}
+              onPress={() => {
+                editNew({
+                  variables: {
+                    title,
+                    overview,
+                    poster_path,
+                    popularity: parseFloat(popularity),
+                    tags
+                  }
+                });
+                setModalVisible(false);
+                setTitle("");
+                setOverview("");
+                setPosterPath("");
+                setPopularity("");
+                setTags([]);
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Montserrat-Regular",
+                    fontSize: 20,
+                    color: "grey"
+                  }}
+                >
+                  Delete
+                </Text>
+                <Ionicons
+                  name="ios-trash"
+                  color="grey"
+                  size={30}
+                  style={{ marginRight: 10 }}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </Modal>
@@ -209,7 +271,7 @@ export default function AddMovieForm(props) {
           justifyContent: "center"
         }}
       >
-        <Ionicons name="ios-add" color="tomato" size={50} />
+        <Ionicons name="ios-settings" color="tomato" size={40} />
       </TouchableOpacity>
     </View>
   );
