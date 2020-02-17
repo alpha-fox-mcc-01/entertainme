@@ -64,7 +64,11 @@ function HomeTvSeries({ navigation }) {
             EntertainMe
           </Text>
         </View>
-        <MyCarousel entries={data.tvSeries} navigation={navigation} />
+        <MyCarousel
+          entries={data.tvSeries}
+          navigation={navigation}
+          screenToGo="Edit TvSeries"
+        />
         <View
           style={{
             position: "absolute",

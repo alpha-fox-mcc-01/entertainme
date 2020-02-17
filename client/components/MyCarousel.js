@@ -55,18 +55,31 @@ export default function MyCarousel(props) {
           />
           <View style={styles.information}>
             <TouchableOpacity
-              onPress={() =>
-                navigation.push("Edit Movie", {
-                  query: "GET_MOVIES",
-                  mutation: "EDIT_MOVIE",
-                  resource: "movies",
-                  mutationName: "editMovie",
-                  deleteMutation: "DELETE_MOVIE",
-                  deleteMutationName: "deleteMovie",
-                  action: "View/Edit Movie",
-                  document: item
-                })
-              }
+              onPress={() => {
+                if (screenToGo === "Edit Movie") {
+                  navigation.push(screenToGo, {
+                    query: "GET_MOVIES",
+                    mutation: "EDIT_MOVIE",
+                    resource: "movies",
+                    mutationName: "editMovie",
+                    deleteMutation: "DELETE_MOVIE",
+                    deleteMutationName: "deleteMovie",
+                    action: "View/Edit Movie",
+                    document: item
+                  });
+                } else {
+                  navigation.push(screenToGo, {
+                    query: "GET_TV_SERIES",
+                    mutation: "EDIT_TV_SERIES",
+                    resource: "tvSeries",
+                    mutationName: "editTvSeries",
+                    deleteMutation: "DELETE_TV_SERIES",
+                    deleteMutationName: "deleteTvSeries",
+                    action: "View/Edit TV Series",
+                    document: item
+                  });
+                }
+              }}
             >
               <Text style={{ fontSize: 20, fontFamily: "Montserrat-Regular" }}>
                 {item.title.slice(0, 20)}
