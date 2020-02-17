@@ -30,13 +30,23 @@ export default function MovieDetail({ route, navigation }) {
         poster_path,
       },
     })
-    navigation.navigate('CurrentWatchList')
+      .then(() => {
+        alert(`${title} added to watchlist`)
+        navigation.navigate('CurrentWatchList')
+      })
+      .catch(() => {
+        alert('failed to add watchlist')
+      })
   }
 
   if (error) {
     return <Text>Error! {JSON.stringify(error)}</Text>
   } else if (loading) {
-    return <View style={styles.container} />
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loading}>pls wait~</Text>
+      </View>
+    )
   } else if (data) {
     const { poster_path, title, year, popularity, overview } = data.discoverMovie
     return (

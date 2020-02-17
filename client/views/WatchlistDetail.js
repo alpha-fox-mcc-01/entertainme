@@ -22,29 +22,46 @@ export default function WatchlistDetail({ route, navigation }) {
       imdbId: imdbId,
     },
   })
-  const { data: tagsData, refetch: tagsRefetch } = useQuery(GET_TAGS, {
+  const {
+    data: tagsData,
+    loading: tagsLoading,
+    error: tagsError,
+    refetch: tagsRefetch,
+  } = useQuery(GET_TAGS, {
     variables: {
       id: _id,
     },
   })
-  // useEffect(() => {
-  //   refetch()
-  //   tagsRefetch()
-  // }, [])
 
-  if (error) {
-    return <Text>Error! {JSON.stringify(error)}</Text>
+  useEffect(() => {
+    refetch()
+    tagsRefetch()
+  }, [])
+
+  if (error || tagsError) {
+    return (
+      <Text>
+        Error! {JSON.stringify(error)} {JSON.stringify(tagsError)}
+      </Text>
+    )
   }
 
-  if (loading) {
-    return <Text>Loading</Text>
-  } else {
+  if (loading || tagsLoading) {
+    console.log('loading', loading)
+    console.log('tagsLoading', tagsLoading)
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loading}>pls wait~</Text>
+      </View>
+    )
+  }
+
+  if (data && tagsData) {
     const { tags } = tagsData.movie
     const { poster_path, title, year, popularity, overview } = data.discoverMovie
     return (
       <View style={styles.container}>
         <Image source={{ uri: poster_path }} style={styles.background} />
-        {/* <View style={styles.backgroundTinter} /> */}
         <LinearGradient
           colors={['rgba(52,55,70,0.7)', 'rgba(52,55,70,1)']}
           start={[0, 0]}
@@ -60,12 +77,15 @@ export default function WatchlistDetail({ route, navigation }) {
               <Text style={styles.info}>Rating: {popularity}</Text>
               <Text style={styles.info}>Synopsis:</Text>
               <Text style={styles.info}>{overview}</Text>
-              {tags.map((tag, i) => (
-                <Text key={i} style={styles.info}>
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            {tags !== undefined &&
+              tags.map((tag, i) => (
+                <Text key={i} style={styles.tags}>
                   🏷{tag}
                 </Text>
               ))}
-            </View>
           </View>
 
           <View style={styles.tagform}>
@@ -80,15 +100,19 @@ export default function WatchlistDetail({ route, navigation }) {
             {showForm && (
               <TextInput
                 style={styles.formControl}
-                placeholder='hit enter to add tags'
+                placeholder='enter to add tags, comma separated'
                 onChangeText={(value) => {
                   setInputtedTags(value)
                 }}
                 value={inputtedTags}
                 onSubmitEditing={() => {
-                  let stringifiedTags = tags.join(',')
-                  stringifiedTags += `,${inputtedTags}`
-
+                  let stringifiedTags
+                  if (tags.length >= 1) {
+                    stringifiedTags = tags.join(',')
+                    stringifiedTags += `,${inputtedTags}`
+                  } else {
+                    stringifiedTags = inputtedTags
+                  }
                   changeTags({
                     variables: {
                       id: _id,
@@ -97,6 +121,7 @@ export default function WatchlistDetail({ route, navigation }) {
                   }).then(() => {
                     refetch()
                     tagsRefetch()
+                    setInputtedTags('')
                   })
                 }}
               />

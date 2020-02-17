@@ -10,6 +10,16 @@ export default StyleSheet.create({
     paddingTop: Constants.statusBarHeight * 2,
     backgroundColor: colors.bgDark,
   },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight * 2,
+    backgroundColor: colors.bgDark,
+  },
+  loading: {
+    color: colors.accent.white,
+  },
   background: {
     position: 'absolute',
     width: '100%',

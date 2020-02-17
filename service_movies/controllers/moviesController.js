@@ -63,19 +63,24 @@ class MoviesController {
   static changeTags(req, res) {
     const { tags } = req.body
     const { id } = req.params
-    let tagsArr = []
-    if (tags) {
-      tagsArr = tags.split(',')
-    }
-    const updateValue = {
-      tags: tagsArr,
-    }
 
-    Movie.findOneAndUpdate({ _id: id }, updateValue, { new: true })
-      .then((result) => {
-        res.status(200).json(result)
-      })
-      .catch(console.log)
+    if (tags.length >= 1) {
+      let tagsArr = []
+      if (tags) {
+        tagsArr = tags.split(',')
+      }
+      const updateValue = {
+        tags: tagsArr,
+      }
+
+      Movie.findOneAndUpdate({ _id: id }, updateValue, { new: true })
+        .then((result) => {
+          res.status(200).json(result)
+        })
+        .catch(console.log)
+    } else {
+      res.status(204).json({})
+    }
   }
 
   static delete(req, res) {
