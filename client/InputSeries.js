@@ -27,15 +27,15 @@ const GET_SERIES = gql`
   }
 `;
 
-const ADD_MOVIE = gql`
-  mutation AddMovie(
+const ADD_SERIES = gql`
+  mutation AddSeries(
     $title: String
     $popularity: Int
     $tags: [String]
     $poster_path: String
     $overview: String
   ) {
-    addMovies(
+    addSeries(
       title: $title
       popularity: $popularity
       tags: $tags
@@ -51,7 +51,7 @@ const ADD_MOVIE = gql`
     }
   }
 `;  
-export default function InputForm() {
+export default function InputSeries() {
   const [modal, setModal] = useState("false");
   const { loading, error, data } = useQuery(GET_MOVIES);
   const { loading : loadSerial , error : errorSerial, data: serial } = useQuery(GET_SERIES)
@@ -60,19 +60,20 @@ export default function InputForm() {
   const [path, onChangePath] = useState("");
   const [tags, onChangeTags] = useState([]);
   const [overview, onChangeOverview] = useState("")
-  const [addMovies, { data: result }] = useMutation(ADD_MOVIE, {
-    update(cache, { data: { addMovies } }) {
-      const { movies } = cache.readQuery({ query: GET_MOVIES });
+  const [addSeries, { data: result }] = useMutation(ADD_SERIES, {
+    update(cache, { data: { addSeries} }) {
+      const { tvseries } = cache.readQuery({ query: GET_SERIES });
+      console.log(cache)
       cache.writeQuery({
-        query: GET_MOVIES,
-        data: { movies: movies.concat([addMovies]) }
+        query: GET_SERIES,
+        data: { tvseries: tvseries.concat([addSeries]) }
       });
     }
   });
 
   const handleInput = () => {
       console.log(path, `IT'S THE PATHH`)
-    addMovies({ variables: { title, popularity: Number(popularity), poster_path : path, tags, overview } });
+    addSeries({ variables: { title, popularity: Number(popularity), poster_path : path, tags, overview } });
     onChangePopularity(null)
     onChangePath('')
     onChangeTags([])
@@ -84,7 +85,7 @@ export default function InputForm() {
   return (
     <View style={{ marginTop: 22, backgroundColor: 'black', flex: 1 }}>
         <View style={{ marginTop: 22, opacity: 50, alignItems: 'center', justifyContent: 'center', backgroundColor: 'black'}}>
-        <Text style={styles.fontStyle}>Add Movies</Text>
+        <Text style={styles.fontStyle}>Add TV Series</Text>
           <View style={{ width: 300, height: 300, alignItems: 'center', justifyContent: 'center', backgroundColor: 'black'}}>
             <Text style={styles.fontStyle}>Title</Text>
             <TextInput

@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import InputForm from './InputForm'
+import InputSeries from './InputSeries'
 
 const client = new ApolloClient({
   uri: "http://localhost:4000"
@@ -32,6 +33,12 @@ export default function App() {
         }} />
          <Tab.Screen name="Add Movie" component={InputForm}   options={{
           tabBarLabel: 'Add Movie',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus" color={color} size={size} />
+          ),
+        }} />
+        <Tab.Screen name="Add TV Series" component={InputSeries}   options={{
+          tabBarLabel: 'Add TV Series',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="plus" color={color} size={size} />
           ),

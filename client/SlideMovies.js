@@ -21,7 +21,7 @@ export default function SlideMovies(props) {
       <View style={styles.slide}>
         <View style={styles.slideInnerContainer}>
         <Image
-            style={{ width: 150, height: 200, resizeMode: 'stretch' }}
+            style={{ width: 150, height: 200, resizeMode: 'stretch', borderRadius: 4  }}
             source={{ uri: item.poster_path }}
           ></Image>
         <Text style={{color: 'white'}}>{item.title}</Text>

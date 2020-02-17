@@ -2,20 +2,18 @@ const TvSeries = require('../models/tvseries')
 
 class TvSeriesController {
     static createSeries(req, res, next) {
+      console.log(req.body, 'di series')
         const { title, overview, poster_path, popularity, tags } = req.body;
-        let tagInput = [];
-        if (tags) {
-          tagInput = tags.split(",");
-        }
+        
         TvSeries.create({
           title,
           overview,
           poster_path,
           popularity,
-          tags: tagInput
+          tags
         })
           .then( result => {
-              console.log(result)
+              console.log(result, 'ini result')
             res.status(201).json({ result });
           })
           .catch(err => {
