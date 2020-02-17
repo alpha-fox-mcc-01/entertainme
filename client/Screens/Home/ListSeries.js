@@ -11,7 +11,7 @@ export default function ListMovie({ navigation }) {
   );
   const starCounter = (points) => {
     let stars = ''
-    while ( points > 2) {
+    while ( points >= 2) {
       points -= 2
       stars += '⭐'
       

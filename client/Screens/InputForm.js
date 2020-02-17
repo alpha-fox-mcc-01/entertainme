@@ -3,13 +3,17 @@ import { Text,  View, TextInput,
     Button, StyleSheet} from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { ADD_MOVIE, GET_MOVIES } from '../Queries';
+import TagInput from "react-native-tags-input"
 
 export default function InputForm() {
 
   const [title, onChangeTitle] = useState("");
   const [popularity, onChangePopularity] = useState(null);
   const [path, onChangePath] = useState("");
-  const [tags, onChangeTags] = useState([]);
+  const [tags, setTags] = useState({
+    tag: '',
+    tagsArray: []
+  });
   const [overview, onChangeOverview] = useState("")
   const [addMovies, { data: result }] = useMutation(ADD_MOVIE, {
     update(cache, { data: { addMovies } }) {
@@ -20,13 +24,18 @@ export default function InputForm() {
       });
     }
   });
-
+  const updateTagState = (state) => {
+    setTags(state)
+  }
   const handleInput = () => {
       console.log(path, `IT'S THE PATHH`)
-    addMovies({ variables: { title, poster_path : path, tags, overview } });
+    addMovies({ variables: { title, poster_path : path, tags: tags.tagsArray, overview } });
     onChangePopularity(null)
     onChangePath('')
-    onChangeTags([])
+    setTags({
+      tag: '',
+      tagsArray: []
+    })
     onChangeOverview('')
     onChangeTitle('')
   };
@@ -49,12 +58,6 @@ export default function InputForm() {
               onChangeText={input => onChangePopularity(input)}
               value={popularity}
             />
-            <Text style={styles.fontStyle}>Tags</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={input => onChangeTags(input.split(","))}
-              value={tags.join(",")}
-            />
             <Text style={styles.fontStyle}>Poster Path</Text>
             <TextInput
               style={styles.inputStyle}
@@ -67,6 +70,19 @@ export default function InputForm() {
               style={styles.inputStyle}
               onChangeText={input => onChangeOverview(input)}
               value={overview}
+            />
+             <Text style={styles.fontStyle}>Tags</Text>
+            <TagInput
+              updateState={updateTagState}
+              tags={tags}
+              style={{
+                color: 'white',
+                borderWidth: 1,
+                borderColor: 'red',
+                borderRadius: 6,
+                width: 150,
+                marginLeft: 60
+              }}
             />
             <Button title="Submit" onPress={() => handleInput()}></Button>
           </View>

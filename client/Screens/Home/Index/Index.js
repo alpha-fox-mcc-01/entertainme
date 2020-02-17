@@ -2,21 +2,47 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { Header } from "react-native-elements";
 import { WebView } from "react-native-webview";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator
+} from "react-native";
 import { Icon } from "native-base";
 
 import SlideMovies from "./components/SlideMovies";
-import SlideSeries from './components/SlideSeries';
-import { GET_SERIES, GET_MOVIES }  from "../../../Queries"
-
+import SlideSeries from "./components/SlideSeries";
+import { GET_SERIES, GET_MOVIES } from "../../../Queries";
 
 export default function Index({ navigation }) {
   const { loading, error, data } = useQuery(GET_MOVIES);
   const { loading: loadSerial, error: errorSerial, data: serial } = useQuery(
     GET_SERIES
   );
-  if (loading) return <Text>Loading Movies...</Text>;
-  if (loadSerial) return <Text>Loading Series...</Text>;
+  if (loading)
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          padding: 10
+        }}
+      >
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  if (loadSerial) return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
+      }}
+    >
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  );
   if (error) return <Text>Error movies...</Text>;
   if (errorSerial) return <Text>Error series...</Text>;
   return (
